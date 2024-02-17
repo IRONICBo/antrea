@@ -1,0 +1,10 @@
+I0217 13:26:56.347164       1 log_file.go:93] Set log file max size to 104857600
+I0217 13:26:56.347695       1 controller.go:124] "LFX Mentorship Pre Task #5514" Github username="IRONICBo"
+I0217 13:26:56.347706       1 controller.go:125] "LFX Mentorship Pre Task #5514" Pod name="antrea-controller-69d46574f5-zg8m8"
+I0217 13:26:56.347711       1 controller.go:126] Starting Antrea Controller (version v2.0.0-dev-31b17d89.dirty)
+I0217 13:26:56.347718       1 client.go:89] No kubeconfig file was specified. Falling back to in-cluster config
+I0217 13:26:56.365403       1 selfsignedcert_provider.go:273] "Didn't find the Secret for TLS certificate and key" secret="antrea-controller-tls"
+I0217 13:26:56.365427       1 selfsignedcert_provider.go:235] "Generating self-signed cert"
+I0217 13:26:56.560209       1 selfsignedcert_provider.go:251] "Writing certificate and key to the cert directory"
+I0217 13:26:56.652989       1 prometheus.go:124] Initializing prometheus metrics
+I0217 13:26:56.653042       1 controller.go:152] "Starting" controller="EgressController"
