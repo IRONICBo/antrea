@@ -1,0 +1,175 @@
+I0317 17:49:26.450096       1 log_file.go:93] Set log file max size to 104857600
+I0317 17:49:26.450448       1 agent.go:106] "LFX Mentorship Pre Task #5514" Github username="IRONICBo"
+I0317 17:49:26.450452       1 agent.go:107] "LFX Mentorship Pre Task #5514" Pod name="antrea-agent-5prnt"
+I0317 17:49:26.450454       1 agent.go:108] "LFX Mentorship Pre Task #5514" Pod name="antrea-agent-5prnt"
+I0317 17:49:26.450456       1 agent.go:109] "Starting Antrea agent" version="v2.0.0-dev-97fc0f0d.dirty"
+I0317 17:49:26.450462       1 client.go:89] No kubeconfig file was specified. Falling back to in-cluster config
+I0317 17:49:26.450649       1 agent.go:136] "Node IPs" NodeCount=0
+I0317 17:49:26.450678       1 prometheus.go:189] Initializing prometheus metrics
+I0317 17:49:26.450718       1 ovs_client.go:71] Connecting to OVSDB at address /var/run/openvswitch/db.sock
+I0317 17:49:27.451565       1 ovs_client.go:90] Not connected yet, will try again in 2s
+I0317 17:49:27.451902       1 agent.go:412] Setting up node network
+I0317 17:49:27.452035       1 discoverer.go:82] Starting ServiceCIDRDiscoverer
+I0317 17:49:27.469103       1 agent.go:1023] "Got Interface MTU" MTU=1450
+I0317 17:49:27.470196       1 ovs_client.go:122] Created bridge: 953fa860-9ffd-4735-866b-a4c440a2bcd2
+I0317 17:49:27.481753       1 agent.go:881] "Allocated OpenFlow port for tunnel interface" port="antrea-tun0" ofPort=1
+I0317 17:49:27.486787       1 agent.go:702] "Allocated OpenFlow port for gateway interface" port="antrea-gw0" ofPort=2
+I0317 17:49:27.504594       1 route_linux.go:192] Initializing iptables
+I0317 17:49:27.504806       1 agent.go:1170] No round number found in OVSDB, using 1
+I0317 17:49:27.504826       1 agent.go:1182] Using round number 1
+I0317 17:49:27.505034       1 ofctrl.go:218] Initialize connection or re-connect to /var/run/openvswitch/br-int.mgmt.
+I0317 17:49:27.538056       1 route_linux.go:204] Initialized iptables
+I0317 17:49:28.505596       1 ofctrl.go:233] Connected to socket /var/run/openvswitch/br-int.mgmt
+I0317 17:49:28.505720       1 ofctrl.go:295] New connection..
+I0317 17:49:28.505734       1 ofctrl.go:303] Sent hello with OF version: 6
+I0317 17:49:28.505765       1 ofctrl.go:315] Received Openflow 1.5 Hello message
+I0317 17:49:28.505986       1 ofctrl.go:335] Received ofp1.5 Switch feature response: {Header:{Version:6 Type:6 Length:32 Xid:3} DPID:00:00:62:a8:3f:95:35:47 Buffers:0 NumTables:254 AuxilaryId:0 pad:[0 0] Capabilities:591 Reserved:0}
+I0317 17:49:28.506020       1 ofSwitch.go:85] Openflow Connection for new switch: 00:00:62:a8:3f:95:35:47
+I0317 17:49:28.506059       1 ofctrl_bridge.go:326] OFSwitch is connected: 00:00:62:a8:3f:95:35:47
+I0317 17:49:28.532758       1 agent.go:505] Agent initialized NodeConfig=NodeName: kind-worker, OVSBridge: br-int, PodIPv4CIDR: 10.244.1.0/24, PodIPv6CIDR: <nil>, NodeIPv4: 172.18.0.3/16, NodeIPv6: <nil>, TransportIPv4: 172.18.0.3/16, TransportIPv6: <nil>, Gateway: Name antrea-gw0: IPv4 10.244.1.1, IPv6 <nil>, MAC 7a:e5:a8:67:7b:79, NetworkConfig=&{encap geneve 0 false None {psk }  [] true false 50 60 1450 false None}
+I0317 17:49:28.532869       1 metrics.go:138] Registering Antrea Proxy prometheus metrics
+I0317 17:49:28.536128       1 fqdn.go:187] "Using kube-dns Service for DNS requests" dnsServer="10.96.0.10:53"
+I0317 17:49:28.536359       1 audit_logging.go:196] "Initialized Antrea-native Policy Logger for audit logging" logFile="/var/log/antrea/networkpolicy/np.log" options={"MaxSize":500,"MaxBackups":3,"MaxAge":28,"Compress":true}
+I0317 17:49:28.537790       1 server.go:733] "Reconciliation for CNI server"
+I0317 17:49:28.543053       1 agent.go:662] Cleaning up flow-restore-wait config
+I0317 17:49:28.543338       1 agent.go:675] Cleaned up flow-restore-wait config
+I0317 17:49:28.543350       1 client.go:105] No antrea kubeconfig file was specified. Falling back to in-cluster config
+I0317 17:49:28.543358       1 client.go:108] Didn't get CA certificate, skip updating Antrea Client
+I0317 17:49:28.543395       1 server.go:655] "Starting CNI server"
+I0317 17:49:28.543396       1 route_linux.go:244] "Starting iptables, ipset and route sync" interval="1m0s"
+I0317 17:49:28.543421       1 log_file.go:121] Starting log file monitoring. Maximum log file number is 4
+I0317 17:49:28.543464       1 traceflow_controller.go:173] Starting AntreaAgentTraceflowController
+I0317 17:49:28.543484       1 shared_informer.go:270] Waiting for caches to sync for AntreaAgentTraceflowController
+I0317 17:49:28.543494       1 server.go:665] "CNI server is listening ..."
+I0317 17:49:28.543511       1 node_route_controller.go:334] Starting AntreaAgentNodeRouteController
+I0317 17:49:28.544009       1 cluster.go:335] "Starting" controllerName="MemberListCluster"
+I0317 17:49:28.544018       1 shared_informer.go:270] Waiting for caches to sync for AntreaAgentNodeRouteController
+I0317 17:49:28.544051       1 shared_informer.go:270] Waiting for caches to sync for MemberListCluster
+I0317 17:49:28.544049       1 networkpolicy_controller.go:599] Waiting for Antrea client to be ready
+I0317 17:49:28.543495       1 channel.go:83] "Starting SubscribableChannel" name="PodUpdate"
+I0317 17:49:28.544121       1 controller.go:168] Starting ExternalIPPoolController
+I0317 17:49:28.544161       1 config.go:423] "Starting node config controller"
+I0317 17:49:28.544167       1 shared_informer.go:270] Waiting for caches to sync for ExternalIPPoolController
+I0317 17:49:28.544179       1 shared_informer.go:270] Waiting for caches to sync for node config
+I0317 17:49:28.544227       1 config.go:314] Starting endpoint slice config controller
+I0317 17:49:28.544238       1 shared_informer.go:270] Waiting for caches to sync for endpoint slice config
+I0317 17:49:28.544522       1 egress_controller.go:491] Starting AntreaAgentEgressController
+I0317 17:49:28.544580       1 configmap_cafile_content.go:202] "Starting controller" name="antrea-ca::kube-system::antrea-ca::ca.crt"
+I0317 17:49:28.544624       1 shared_informer.go:270] Waiting for caches to sync for antrea-ca::kube-system::antrea-ca::ca.crt
+I0317 17:49:28.544646       1 shared_informer.go:270] Waiting for caches to sync for AntreaAgentEgressController
+I0317 17:49:28.544761       1 local_ip_detector_linux.go:59] Starting localIPDetector
+I0317 17:49:28.544767       1 config.go:223] Starting service config controller
+I0317 17:49:28.544787       1 collector.go:86] Start collecting metrics
+I0317 17:49:28.544794       1 shared_informer.go:270] Waiting for caches to sync for service config
+I0317 17:49:28.544819       1 ip_scheduler.go:219] "Starting Egress IP scheduler"
+I0317 17:49:28.552395       1 discoverer.go:207] "Service IPv4 CIDR was updated" ServiceCIDR="10.96.0.0/17"
+I0317 17:49:28.644742       1 shared_informer.go:277] Caches are synced for AntreaAgentNodeRouteController
+I0317 17:49:28.644748       1 node_route_controller.go:287] Reconciliation for AntreaAgentNodeRouteController
+I0317 17:49:28.644801       1 shared_informer.go:277] Caches are synced for endpoint slice config
+I0317 17:49:28.644813       1 shared_informer.go:277] Caches are synced for node config
+I0317 17:49:28.644822       1 shared_informer.go:277] Caches are synced for AntreaAgentTraceflowController
+I0317 17:49:28.644835       1 shared_informer.go:277] Caches are synced for MemberListCluster
+I0317 17:49:28.644880       1 shared_informer.go:277] Caches are synced for ExternalIPPoolController
+I0317 17:49:28.645256       1 cluster.go:531] "Processed Node event" eventType="Join" nodeName="kind-worker" affectedExternalIPPoolNum=1
+I0317 17:49:28.645284       1 cluster.go:531] "Processed Node event" eventType="Join" nodeName="kind-control-plane" affectedExternalIPPoolNum=1
+I0317 17:49:28.645307       1 shared_informer.go:277] Caches are synced for antrea-ca::kube-system::antrea-ca::ca.crt
+I0317 17:49:28.645357       1 shared_informer.go:277] Caches are synced for service config
+I0317 17:49:28.645389       1 client.go:105] No antrea kubeconfig file was specified. Falling back to in-cluster config
+I0317 17:49:28.645599       1 client.go:130] Updating Antrea client with the new CA bundle
+I0317 17:49:28.701748       1 serving.go:348] Generated self-signed cert in-memory
+I0317 17:49:28.713893       1 node_route_controller.go:499] "Adding routes and flows to Node" Node="kind-control-plane" podCIDRs=["10.244.0.0/24"] addresses=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0317 17:49:28.713906       1 node_route_controller.go:542] "Adding route and flow to Node" Node="kind-control-plane" podCIDR="10.244.0.0/24" peerNodeIP="172.18.0.2"
+I0317 17:49:28.745101       1 networkpolicy_controller.go:610] Antrea client is ready
+I0317 17:49:28.745109       1 networkpolicy_controller.go:625] Waiting for all watchers to complete full sync
+I0317 17:49:28.745119       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0317 17:49:28.745173       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0317 17:49:28.745188       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0317 17:49:28.745232       1 shared_informer.go:277] Caches are synced for AntreaAgentEgressController
+W0317 17:49:28.745261       1 networkpolicy_controller.go:962] Failed to start watch for AppliedToGroup: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/appliedtogroups?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+I0317 17:49:28.745369       1 networkpolicy_controller.go:937] "Getting init events for %s from fallback" AppliedToGroup="(MISSING)"
+I0317 17:49:28.745331       1 route_linux.go:1171] "Restoring IP routes and rules for Egress"
+W0317 17:49:28.745338       1 networkpolicy_controller.go:962] Failed to start watch for NetworkPolicy: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/networkpolicies?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+I0317 17:49:28.745450       1 networkpolicy_controller.go:937] "Getting init events for %s from fallback" NetworkPolicy="(MISSING)"
+W0317 17:49:28.745315       1 networkpolicy_controller.go:962] Failed to start watch for AddressGroup: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/addressgroups?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+I0317 17:49:28.745464       1 networkpolicy_controller.go:937] "Getting init events for %s from fallback" AddressGroup="(MISSING)"
+I0317 17:49:28.745475       1 networkpolicy_controller.go:627] All watchers have completed full sync, installing flows for init events
+I0317 17:49:28.745489       1 egress_controller.go:1208] Starting watch for EgressGroup
+W0317 17:49:28.745637       1 egress_controller.go:1219] Failed to start watch for EgressGroup: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+I0317 17:49:28.745659       1 networkpolicy_controller.go:632] Starting NetworkPolicy workers now
+I0317 17:49:28.745663       1 networkpolicy_controller.go:638] Starting IDAllocator worker to maintain the async rule cache
+I0317 17:49:28.745669       1 status_controller.go:210] Starting NetworkPolicy StatusController
+I0317 17:49:28.797842       1 pipeline.go:492] Start collecting OVS meter stats
+I0317 17:49:28.797842       1 agent.go:53] Starting Antrea Agent Monitor
+I0317 17:49:28.798859       1 requestheader_controller.go:169] Starting RequestHeaderAuthRequestController
+I0317 17:49:28.798865       1 shared_informer.go:270] Waiting for caches to sync for RequestHeaderAuthRequestController
+I0317 17:49:28.798880       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0317 17:49:28.798886       1 shared_informer.go:270] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+I0317 17:49:28.798887       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0317 17:49:28.798892       1 shared_informer.go:270] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+I0317 17:49:28.799271       1 secure_serving.go:210] Serving securely on [::]:10350
+I0317 17:49:28.799290       1 tlsconfig.go:240] "Starting DynamicServingCertificateController"
+I0317 17:49:28.899108       1 shared_informer.go:277] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+I0317 17:49:28.899131       1 shared_informer.go:277] Caches are synced for RequestHeaderAuthRequestController
+I0317 17:49:28.899168       1 shared_informer.go:277] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+I0317 17:49:33.745333       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0317 17:49:33.745406       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0317 17:49:33.745442       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+W0317 17:49:33.745465       1 networkpolicy_controller.go:962] Failed to start watch for AppliedToGroup: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/appliedtogroups?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+W0317 17:49:33.745529       1 networkpolicy_controller.go:962] Failed to start watch for AddressGroup: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/addressgroups?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+W0317 17:49:33.745545       1 networkpolicy_controller.go:962] Failed to start watch for NetworkPolicy: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/networkpolicies?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+I0317 17:49:33.745555       1 egress_controller.go:1208] Starting watch for EgressGroup
+W0317 17:49:33.745645       1 egress_controller.go:1219] Failed to start watch for EgressGroup: Get "https://10.96.70.165:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dkind-worker&watch=true": dial tcp 10.96.70.165:443: connect: connection refused
+I0317 17:49:38.269685       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd\" netns:\"/var/run/netns/cni-79767296-f85b-13dc-e9f5-e263add407ab\" ifname:\"eth0\" args:\"K8S_POD_NAME=coredns-5d78c9869d-rfx4g;K8S_POD_INFRA_CONTAINER_ID=e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd;K8S_POD_UID=e2845743-2c71-47c9-b1dc-c54a7ca704b5;IgnoreUnknown=1;K8S_POD_NAMESPACE=kube-system\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:38.270149       1 server.go:545] "Deleted interfaces for container" container="e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd"
+I0317 17:49:38.273685       1 server.go:553] "CmdDel for container succeeded" container="e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd"
+I0317 17:49:38.357834       1 server.go:423] "Received CmdAdd request" request="cni_args:{container_id:\"aee86c626af8d59c78afefbb0988d6d1beef97ce504f267d8d82e931b6b849b4\" netns:\"/var/run/netns/cni-aeb2a0cb-64ff-f195-7a1d-8c73b616ee14\" ifname:\"eth0\" args:\"IgnoreUnknown=1;K8S_POD_NAMESPACE=kube-system;K8S_POD_NAME=coredns-5d78c9869d-rfx4g;K8S_POD_INFRA_CONTAINER_ID=aee86c626af8d59c78afefbb0988d6d1beef97ce504f267d8d82e931b6b849b4;K8S_POD_UID=e2845743-2c71-47c9-b1dc-c54a7ca704b5\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:38.359663       1 server.go:490] "Allocated IP addresses" container="aee86c626af8d59c78afefbb0988d6d1beef97ce504f267d8d82e931b6b849b4" result={"cniVersion":"1.0.0","ips":[{"address":"10.244.1.2/24","gateway":"10.244.1.1"}],"dns":{},"VLANID":0}
+I0317 17:49:38.368132       1 pod_configuration.go:241] Configured interfaces for container aee86c626af8d59c78afefbb0988d6d1beef97ce504f267d8d82e931b6b849b4
+I0317 17:49:38.368156       1 server.go:519] "CmdAdd for container succeeded" container="aee86c626af8d59c78afefbb0988d6d1beef97ce504f267d8d82e931b6b849b4"
+I0317 17:49:38.533737       1 agent.go:574] Deleting stale flows from previous round if any
+I0317 17:49:38.533763       1 agent.go:512] Persisting round number 1 to OVSDB
+I0317 17:49:38.534614       1 agent.go:517] Round number 1 was persisted to OVSDB
+I0317 17:49:38.746030       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0317 17:49:38.746197       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0317 17:49:38.746282       1 egress_controller.go:1208] Starting watch for EgressGroup
+I0317 17:49:38.746314       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0317 17:49:38.760765       1 networkpolicy_controller.go:974] Started watch for AddressGroup
+I0317 17:49:38.760794       1 networkpolicy_controller.go:1004] Received 0 init events for AddressGroup
+I0317 17:49:38.760843       1 networkpolicy_controller.go:974] Started watch for NetworkPolicy
+I0317 17:49:38.760850       1 networkpolicy_controller.go:974] Started watch for AppliedToGroup
+I0317 17:49:38.760856       1 networkpolicy_controller.go:1004] Received 0 init events for NetworkPolicy
+I0317 17:49:38.760875       1 networkpolicy_controller.go:1004] Received 0 init events for AppliedToGroup
+I0317 17:49:38.760895       1 egress_controller.go:1229] Started watch for EgressGroup
+I0317 17:49:38.760917       1 egress_controller.go:1257] Received 0 init events for EgressGroup
+I0317 17:49:40.237508       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5\" netns:\"/var/run/netns/cni-ed4b7798-bf6d-2f91-7bc9-31057c185845\" ifname:\"eth0\" args:\"K8S_POD_UID=302caf9f-d95e-4c71-972d-621adcf985d9;IgnoreUnknown=1;K8S_POD_NAMESPACE=kube-system;K8S_POD_NAME=coredns-5d78c9869d-wqfd9;K8S_POD_INFRA_CONTAINER_ID=e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:40.237670       1 server.go:545] "Deleted interfaces for container" container="e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5"
+I0317 17:49:40.239715       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f\" netns:\"/var/run/netns/cni-bd95ca8b-fbba-9e19-a937-5decef2786f5\" ifname:\"eth0\" args:\"IgnoreUnknown=1;K8S_POD_NAMESPACE=local-path-storage;K8S_POD_NAME=local-path-provisioner-6bc4bddd6b-krw6p;K8S_POD_INFRA_CONTAINER_ID=b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f;K8S_POD_UID=cd7fcad1-6af4-4df9-a3a8-807403251a16\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:40.239823       1 server.go:545] "Deleted interfaces for container" container="b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f"
+I0317 17:49:40.241205       1 server.go:553] "CmdDel for container succeeded" container="e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5"
+I0317 17:49:40.243679       1 server.go:553] "CmdDel for container succeeded" container="b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f"
+I0317 17:49:40.303298       1 server.go:423] "Received CmdAdd request" request="cni_args:{container_id:\"f4e8d204afb483207e93a9c168df946277ade0699f798a7edc7229979a0d92fd\" netns:\"/var/run/netns/cni-60421b71-ac61-82a4-9444-37075e241f39\" ifname:\"eth0\" args:\"K8S_POD_INFRA_CONTAINER_ID=f4e8d204afb483207e93a9c168df946277ade0699f798a7edc7229979a0d92fd;K8S_POD_UID=cd7fcad1-6af4-4df9-a3a8-807403251a16;IgnoreUnknown=1;K8S_POD_NAMESPACE=local-path-storage;K8S_POD_NAME=local-path-provisioner-6bc4bddd6b-krw6p\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:40.306974       1 server.go:423] "Received CmdAdd request" request="cni_args:{container_id:\"19fd2e04c54b430b896c142993f6eef89d3a5faca4e0564db35605e2826d3177\" netns:\"/var/run/netns/cni-72602258-a1ca-4e72-6d9c-83b2bd62aaad\" ifname:\"eth0\" args:\"IgnoreUnknown=1;K8S_POD_NAMESPACE=kube-system;K8S_POD_NAME=coredns-5d78c9869d-wqfd9;K8S_POD_INFRA_CONTAINER_ID=19fd2e04c54b430b896c142993f6eef89d3a5faca4e0564db35605e2826d3177;K8S_POD_UID=302caf9f-d95e-4c71-972d-621adcf985d9\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:40.307782       1 server.go:490] "Allocated IP addresses" container="f4e8d204afb483207e93a9c168df946277ade0699f798a7edc7229979a0d92fd" result={"cniVersion":"1.0.0","ips":[{"address":"10.244.1.3/24","gateway":"10.244.1.1"}],"dns":{},"VLANID":0}
+I0317 17:49:40.311218       1 server.go:490] "Allocated IP addresses" container="19fd2e04c54b430b896c142993f6eef89d3a5faca4e0564db35605e2826d3177" result={"cniVersion":"1.0.0","ips":[{"address":"10.244.1.4/24","gateway":"10.244.1.1"}],"dns":{},"VLANID":0}
+I0317 17:49:40.327680       1 pod_configuration.go:241] Configured interfaces for container 19fd2e04c54b430b896c142993f6eef89d3a5faca4e0564db35605e2826d3177
+I0317 17:49:40.327747       1 server.go:519] "CmdAdd for container succeeded" container="19fd2e04c54b430b896c142993f6eef89d3a5faca4e0564db35605e2826d3177"
+I0317 17:49:40.327691       1 pod_configuration.go:241] Configured interfaces for container f4e8d204afb483207e93a9c168df946277ade0699f798a7edc7229979a0d92fd
+I0317 17:49:40.327838       1 server.go:519] "CmdAdd for container succeeded" container="f4e8d204afb483207e93a9c168df946277ade0699f798a7edc7229979a0d92fd"
+I0317 17:49:50.225477       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f\" ifname:\"eth0\" args:\"IgnoreUnknown=1;K8S_POD_NAMESPACE=local-path-storage;K8S_POD_NAME=local-path-provisioner-6bc4bddd6b-krw6p;K8S_POD_INFRA_CONTAINER_ID=b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f;K8S_POD_UID=cd7fcad1-6af4-4df9-a3a8-807403251a16\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:50.225596       1 server.go:545] "Deleted interfaces for container" container="b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f"
+I0317 17:49:50.228025       1 server.go:553] "CmdDel for container succeeded" container="b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f"
+I0317 17:49:50.242383       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f\" ifname:\"eth0\" args:\"K8S_POD_UID=cd7fcad1-6af4-4df9-a3a8-807403251a16;IgnoreUnknown=1;K8S_POD_NAMESPACE=local-path-storage;K8S_POD_NAME=local-path-provisioner-6bc4bddd6b-krw6p;K8S_POD_INFRA_CONTAINER_ID=b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:50.242496       1 server.go:545] "Deleted interfaces for container" container="b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f"
+I0317 17:49:50.245818       1 server.go:553] "CmdDel for container succeeded" container="b87e4136f6cea6230c3e9d891ba40f93ffc7dc3f3987fa61adec21da840fec8f"
+I0317 17:49:50.276546       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5\" ifname:\"eth0\" args:\"K8S_POD_NAME=coredns-5d78c9869d-wqfd9;K8S_POD_INFRA_CONTAINER_ID=e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5;K8S_POD_UID=302caf9f-d95e-4c71-972d-621adcf985d9;IgnoreUnknown=1;K8S_POD_NAMESPACE=kube-system\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:50.276640       1 server.go:545] "Deleted interfaces for container" container="e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5"
+I0317 17:49:50.280106       1 server.go:553] "CmdDel for container succeeded" container="e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5"
+I0317 17:49:50.299625       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5\" ifname:\"eth0\" args:\"K8S_POD_INFRA_CONTAINER_ID=e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5;K8S_POD_UID=302caf9f-d95e-4c71-972d-621adcf985d9;IgnoreUnknown=1;K8S_POD_NAMESPACE=kube-system;K8S_POD_NAME=coredns-5d78c9869d-wqfd9\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:50.299710       1 server.go:545] "Deleted interfaces for container" container="e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5"
+I0317 17:49:50.302045       1 server.go:553] "CmdDel for container succeeded" container="e2315605e24322333a93ecb6e2d20fc678e2bf07362b4091c5b9801635eb1ab5"
+I0317 17:49:50.330181       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd\" ifname:\"eth0\" args:\"K8S_POD_NAMESPACE=kube-system;K8S_POD_NAME=coredns-5d78c9869d-rfx4g;K8S_POD_INFRA_CONTAINER_ID=e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd;K8S_POD_UID=e2845743-2c71-47c9-b1dc-c54a7ca704b5;IgnoreUnknown=1\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:50.330323       1 server.go:545] "Deleted interfaces for container" container="e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd"
+I0317 17:49:50.334098       1 server.go:553] "CmdDel for container succeeded" container="e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd"
+I0317 17:49:50.351736       1 server.go:559] "Received CmdDel request" request="cni_args:{container_id:\"e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd\" ifname:\"eth0\" args:\"K8S_POD_NAME=coredns-5d78c9869d-rfx4g;K8S_POD_INFRA_CONTAINER_ID=e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd;K8S_POD_UID=e2845743-2c71-47c9-b1dc-c54a7ca704b5;IgnoreUnknown=1;K8S_POD_NAMESPACE=kube-system\" path:\"/opt/cni/bin\" network_configuration:\"{\\\"cniVersion\\\":\\\"0.3.0\\\",\\\"ipam\\\":{\\\"type\\\":\\\"host-local\\\"},\\\"name\\\":\\\"antrea\\\",\\\"type\\\":\\\"antrea\\\"}\"}"
+I0317 17:49:50.351820       1 server.go:545] "Deleted interfaces for container" container="e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd"
+I0317 17:49:50.353259       1 server.go:553] "CmdDel for container succeeded" container="e958876e27b15ca9a25bdb398b9d576455ef2882138659c140e602b8173be9fd"

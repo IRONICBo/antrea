@@ -50,6 +50,10 @@ func NewTracker(nodeInformer coreinformers.NodeInformer) *Tracker {
 	return tracker
 }
 
+func (t *Tracker) Run(stopCh <-chan struct{}) {
+	t.nodeInformer.Informer().Run(stopCh)
+}
+
 func (t *Tracker) OnNodeAdd(obj interface{}) {
 	node := obj.(*corev1.Node)
 	t.mutex.Lock()

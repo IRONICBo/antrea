@@ -1,0 +1,29 @@
+I0318 03:01:14.953628       1 log_file.go:93] Set log file max size to 104857600
+I0318 03:01:14.953945       1 agent.go:104] "Starting Antrea agent" version="v2.0.0-dev-bc54253"
+I0318 03:01:14.953961       1 client.go:89] No kubeconfig file was specified. Falling back to in-cluster config
+I0318 03:01:14.954346       1 prometheus.go:189] Initializing prometheus metrics
+I0318 03:01:14.954461       1 ovs_client.go:71] Connecting to OVSDB at address /var/run/openvswitch/db.sock
+I0318 03:01:14.954671       1 agent.go:420] Setting up node network
+I0318 03:01:14.954714       1 discoverer.go:82] Starting ServiceCIDRDiscoverer
+F0318 03:01:44.955619       1 main.go:53] Error running agent: error initializing agent: failed to get Node with name kind-worker3 from K8s: Get "https://10.96.0.1:443/api/v1/nodes/kind-worker3": dial tcp 10.96.0.1:443: i/o timeout
+goroutine 1 [running]:
+k8s.io/klog/v2/internal/dbg.Stacks(0x0)
+	k8s.io/klog/v2@v2.100.1/internal/dbg/dbg.go:35 +0x85
+k8s.io/klog/v2.(*loggingT).output(0x448a880, 0x3, 0x0, 0xc00026c7e0, 0x1, {0x35c0172?, 0x1?}, 0x10?, 0x0)
+	k8s.io/klog/v2@v2.100.1/klog.go:941 +0x6ba
+k8s.io/klog/v2.(*loggingT).printfDepth(0x0?, 0x0?, 0x0, {0x0, 0x0}, 0x0?, {0x2a02257, 0x17}, {0xc00005c020, 0x1, ...})
+	k8s.io/klog/v2@v2.100.1/klog.go:737 +0x1dd
+k8s.io/klog/v2.(*loggingT).printf(...)
+	k8s.io/klog/v2@v2.100.1/klog.go:718
+k8s.io/klog/v2.Fatalf(...)
+	k8s.io/klog/v2@v2.100.1/klog.go:1647
+main.newAgentCommand.func1(0xc0001c7f00?, {0xc0009909c0, 0x0, 0x6})
+	antrea.io/antrea/cmd/antrea-agent/main.go:53 +0x2d1
+github.com/spf13/cobra.(*Command).execute(0xc000876000, {0xc000144010, 0x6, 0x6})
+	github.com/spf13/cobra@v1.8.0/command.go:987 +0xaa3
+github.com/spf13/cobra.(*Command).ExecuteC(0xc000876000)
+	github.com/spf13/cobra@v1.8.0/command.go:1115 +0x3ff
+github.com/spf13/cobra.(*Command).Execute(...)
+	github.com/spf13/cobra@v1.8.0/command.go:1039
+main.main()
+	antrea.io/antrea/cmd/antrea-agent/main.go:32 +0x18

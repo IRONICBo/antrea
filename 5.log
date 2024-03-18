@@ -1,0 +1,343 @@
+I0318 03:18:23.468195       1 log_file.go:93] Set log file max size to 104857600
+I0318 03:18:23.468735       1 agent.go:106] "LFX Mentorship Pre Task #5514" Github username="IRONICBo"
+I0318 03:18:23.468742       1 agent.go:107] "LFX Mentorship Pre Task #5514" Pod name="antrea-agent-g6rtq"
+I0318 03:18:23.468745       1 agent.go:108] "LFX Mentorship Pre Task #5514" Pod name="antrea-agent-g6rtq"
+I0318 03:18:23.468748       1 agent.go:109] "Starting Antrea agent" version="v2.0.0-dev-97fc0f0d.dirty"
+I0318 03:18:23.468756       1 client.go:89] No kubeconfig file was specified. Falling back to in-cluster config
+I0318 03:18:23.469026       1 prometheus.go:189] Initializing prometheus metrics
+I0318 03:18:23.469090       1 ovs_client.go:71] Connecting to OVSDB at address /var/run/openvswitch/db.sock
+I0318 03:18:23.469122       1 agent.go:143] "Node IPs" NodeCount=0
+I0318 03:18:24.469462       1 ovs_client.go:90] Not connected yet, will try again in 2s
+I0318 03:18:24.470134       1 agent.go:412] Setting up node network
+I0318 03:18:24.470691       1 discoverer.go:82] Starting ServiceCIDRDiscoverer
+I0318 03:18:24.487925       1 agent.go:1023] "Got Interface MTU" MTU=1450
+I0318 03:18:24.489055       1 ovs_client.go:122] Created bridge: ccf4a0e1-69cc-4e75-b194-853afa06e2fd
+I0318 03:18:24.499663       1 agent.go:881] "Allocated OpenFlow port for tunnel interface" port="antrea-tun0" ofPort=1
+I0318 03:18:24.505463       1 agent.go:702] "Allocated OpenFlow port for gateway interface" port="antrea-gw0" ofPort=2
+I0318 03:18:24.514886       1 route_linux.go:192] Initializing iptables
+I0318 03:18:24.514962       1 agent.go:1170] No round number found in OVSDB, using 1
+I0318 03:18:24.514967       1 agent.go:1182] Using round number 1
+I0318 03:18:24.515051       1 ofctrl.go:218] Initialize connection or re-connect to /var/run/openvswitch/br-int.mgmt.
+I0318 03:18:24.526334       1 route_linux.go:204] Initialized iptables
+I0318 03:18:25.515888       1 ofctrl.go:233] Connected to socket /var/run/openvswitch/br-int.mgmt
+I0318 03:18:25.516380       1 ofctrl.go:295] New connection..
+I0318 03:18:25.516441       1 ofctrl.go:303] Sent hello with OF version: 6
+I0318 03:18:25.516571       1 ofctrl.go:315] Received Openflow 1.5 Hello message
+I0318 03:18:25.517498       1 ofctrl.go:335] Received ofp1.5 Switch feature response: {Header:{Version:6 Type:6 Length:32 Xid:3} DPID:00:00:e2:a0:f4:cc:75:4e Buffers:0 NumTables:254 AuxilaryId:0 pad:[0 0] Capabilities:591 Reserved:0}
+I0318 03:18:25.517693       1 ofSwitch.go:85] Openflow Connection for new switch: 00:00:e2:a0:f4:cc:75:4e
+I0318 03:18:25.517803       1 ofctrl_bridge.go:326] OFSwitch is connected: 00:00:e2:a0:f4:cc:75:4e
+I0318 03:18:25.603198       1 agent.go:505] Agent initialized NodeConfig=NodeName: kind-control-plane, OVSBridge: br-int, PodIPv4CIDR: 10.244.0.0/24, PodIPv6CIDR: <nil>, NodeIPv4: 172.18.0.2/16, NodeIPv6: <nil>, TransportIPv4: 172.18.0.2/16, TransportIPv6: <nil>, Gateway: Name antrea-gw0: IPv4 10.244.0.1, IPv6 <nil>, MAC 42:61:27:ce:8e:45, NetworkConfig=&{encap geneve 0 false None {psk }  [] true false 50 60 1450 false None}
+I0318 03:18:25.603388       1 metrics.go:138] Registering Antrea Proxy prometheus metrics
+I0318 03:18:25.611248       1 fqdn.go:187] "Using kube-dns Service for DNS requests" dnsServer="10.96.0.10:53"
+I0318 03:18:25.611532       1 audit_logging.go:196] "Initialized Antrea-native Policy Logger for audit logging" logFile="/var/log/antrea/networkpolicy/np.log" options={"MaxSize":500,"MaxBackups":3,"MaxAge":28,"Compress":true}
+I0318 03:18:25.612885       1 server.go:733] "Reconciliation for CNI server"
+I0318 03:18:25.619808       1 agent.go:662] Cleaning up flow-restore-wait config
+I0318 03:18:25.620114       1 agent.go:675] Cleaned up flow-restore-wait config
+I0318 03:18:25.620121       1 client.go:105] No antrea kubeconfig file was specified. Falling back to in-cluster config
+I0318 03:18:25.620127       1 client.go:108] Didn't get CA certificate, skip updating Antrea Client
+I0318 03:18:25.620171       1 server.go:655] "Starting CNI server"
+I0318 03:18:25.620171       1 route_linux.go:244] "Starting iptables, ipset and route sync" interval="1m0s"
+I0318 03:18:25.620221       1 channel.go:83] "Starting SubscribableChannel" name="PodUpdate"
+I0318 03:18:25.620249       1 log_file.go:121] Starting log file monitoring. Maximum log file number is 4
+I0318 03:18:25.620288       1 server.go:665] "CNI server is listening ..."
+I0318 03:18:25.620291       1 cluster.go:335] "Starting" controllerName="MemberListCluster"
+I0318 03:18:25.620300       1 networkpolicy_controller.go:599] Waiting for Antrea client to be ready
+I0318 03:18:25.620309       1 shared_informer.go:270] Waiting for caches to sync for MemberListCluster
+I0318 03:18:25.620309       1 controller.go:168] Starting ExternalIPPoolController
+I0318 03:18:25.620339       1 shared_informer.go:270] Waiting for caches to sync for ExternalIPPoolController
+I0318 03:18:25.620351       1 egress_controller.go:491] Starting AntreaAgentEgressController
+I0318 03:18:25.620388       1 config.go:423] "Starting node config controller"
+I0318 03:18:25.620264       1 traceflow_controller.go:173] Starting AntreaAgentTraceflowController
+I0318 03:18:25.620414       1 configmap_cafile_content.go:202] "Starting controller" name="antrea-ca::kube-system::antrea-ca::ca.crt"
+I0318 03:18:25.620425       1 shared_informer.go:270] Waiting for caches to sync for AntreaAgentTraceflowController
+I0318 03:18:25.620430       1 shared_informer.go:270] Waiting for caches to sync for antrea-ca::kube-system::antrea-ca::ca.crt
+I0318 03:18:25.620445       1 config.go:314] Starting endpoint slice config controller
+I0318 03:18:25.620454       1 shared_informer.go:270] Waiting for caches to sync for endpoint slice config
+I0318 03:18:25.620461       1 local_ip_detector_linux.go:59] Starting localIPDetector
+I0318 03:18:25.620410       1 shared_informer.go:270] Waiting for caches to sync for AntreaAgentEgressController
+I0318 03:18:25.620464       1 node_route_controller.go:334] Starting AntreaAgentNodeRouteController
+I0318 03:18:25.620410       1 shared_informer.go:270] Waiting for caches to sync for node config
+I0318 03:18:25.620496       1 shared_informer.go:270] Waiting for caches to sync for AntreaAgentNodeRouteController
+I0318 03:18:25.620430       1 config.go:223] Starting service config controller
+I0318 03:18:25.620539       1 shared_informer.go:270] Waiting for caches to sync for service config
+I0318 03:18:25.620564       1 ip_scheduler.go:219] "Starting Egress IP scheduler"
+I0318 03:18:25.620720       1 collector.go:86] Start collecting metrics
+E0318 03:18:25.628517       1 cluster.go:224] "Processing Node CREATE event error, join cluster failed" err=<
+	1 error occurred:
+		* Failed to join 172.18.0.4:10351: dial tcp 172.18.0.4:10351: connect: connection refused
+	
+ > member="172.18.0.4"
+E0318 03:18:25.629412       1 cluster.go:224] "Processing Node CREATE event error, join cluster failed" err=<
+	1 error occurred:
+		* Failed to join 172.18.0.3:10351: dial tcp 172.18.0.3:10351: connect: connection refused
+	
+ > member="172.18.0.3"
+I0318 03:18:25.671418       1 discoverer.go:207] "Service IPv4 CIDR was updated" ServiceCIDR="10.96.0.0/16"
+I0318 03:18:25.721296       1 shared_informer.go:277] Caches are synced for service config
+I0318 03:18:25.721308       1 shared_informer.go:277] Caches are synced for AntreaAgentTraceflowController
+I0318 03:18:25.721322       1 shared_informer.go:277] Caches are synced for node config
+I0318 03:18:25.721330       1 shared_informer.go:277] Caches are synced for antrea-ca::kube-system::antrea-ca::ca.crt
+I0318 03:18:25.721342       1 shared_informer.go:277] Caches are synced for ExternalIPPoolController
+I0318 03:18:25.721354       1 shared_informer.go:277] Caches are synced for AntreaAgentNodeRouteController
+I0318 03:18:25.721360       1 node_route_controller.go:287] Reconciliation for AntreaAgentNodeRouteController
+I0318 03:18:25.721363       1 shared_informer.go:277] Caches are synced for endpoint slice config
+I0318 03:18:25.721380       1 client.go:105] No antrea kubeconfig file was specified. Falling back to in-cluster config
+I0318 03:18:25.721425       1 shared_informer.go:277] Caches are synced for MemberListCluster
+I0318 03:18:25.721435       1 client.go:130] Updating Antrea client with the new CA bundle
+I0318 03:18:25.721459       1 cluster.go:531] "Processed Node event" eventType="Join" nodeName="kind-control-plane" affectedExternalIPPoolNum=1
+I0318 03:18:25.766162       1 node_route_controller.go:499] "Adding routes and flows to Node" Node="kind-worker" podCIDRs=["10.244.2.0/24"] addresses=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:18:25.766174       1 node_route_controller.go:542] "Adding route and flow to Node" Node="kind-worker" podCIDR="10.244.2.0/24" peerNodeIP="172.18.0.4"
+I0318 03:18:25.766223       1 node_route_controller.go:499] "Adding routes and flows to Node" Node="kind-worker2" podCIDRs=["10.244.1.0/24"] addresses=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:18:25.766228       1 node_route_controller.go:542] "Adding route and flow to Node" Node="kind-worker2" podCIDR="10.244.1.0/24" peerNodeIP="172.18.0.3"
+I0318 03:18:25.815670       1 serving.go:348] Generated self-signed cert in-memory
+I0318 03:18:25.820702       1 networkpolicy_controller.go:610] Antrea client is ready
+I0318 03:18:25.820711       1 networkpolicy_controller.go:625] Waiting for all watchers to complete full sync
+I0318 03:18:25.820719       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0318 03:18:25.820723       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0318 03:18:25.820771       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0318 03:18:25.820788       1 shared_informer.go:277] Caches are synced for AntreaAgentEgressController
+I0318 03:18:25.820851       1 route_linux.go:1171] "Restoring IP routes and rules for Egress"
+W0318 03:18:25.820862       1 networkpolicy_controller.go:962] Failed to start watch for AddressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/addressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:18:25.820871       1 networkpolicy_controller.go:937] "Getting init events for %s from fallback" AddressGroup="(MISSING)"
+I0318 03:18:25.820904       1 egress_controller.go:1208] Starting watch for EgressGroup
+W0318 03:18:25.820899       1 networkpolicy_controller.go:962] Failed to start watch for NetworkPolicy: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/networkpolicies?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:18:25.820916       1 networkpolicy_controller.go:937] "Getting init events for %s from fallback" NetworkPolicy="(MISSING)"
+W0318 03:18:25.820919       1 networkpolicy_controller.go:962] Failed to start watch for AppliedToGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/appliedtogroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:18:25.820930       1 networkpolicy_controller.go:937] "Getting init events for %s from fallback" AppliedToGroup="(MISSING)"
+I0318 03:18:25.820966       1 networkpolicy_controller.go:627] All watchers have completed full sync, installing flows for init events
+W0318 03:18:25.820986       1 egress_controller.go:1219] Failed to start watch for EgressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:18:25.821116       1 networkpolicy_controller.go:632] Starting NetworkPolicy workers now
+I0318 03:18:25.821121       1 networkpolicy_controller.go:638] Starting IDAllocator worker to maintain the async rule cache
+I0318 03:18:25.821126       1 status_controller.go:210] Starting NetworkPolicy StatusController
+I0318 03:18:25.884933       1 pipeline.go:492] Start collecting OVS meter stats
+I0318 03:18:25.884936       1 agent.go:53] Starting Antrea Agent Monitor
+I0318 03:18:25.886341       1 requestheader_controller.go:169] Starting RequestHeaderAuthRequestController
+I0318 03:18:25.886349       1 shared_informer.go:270] Waiting for caches to sync for RequestHeaderAuthRequestController
+I0318 03:18:25.886365       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0318 03:18:25.886369       1 shared_informer.go:270] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+I0318 03:18:25.886378       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0318 03:18:25.886385       1 shared_informer.go:270] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+I0318 03:18:25.886724       1 secure_serving.go:210] Serving securely on [::]:10350
+I0318 03:18:25.886739       1 tlsconfig.go:240] "Starting DynamicServingCertificateController"
+I0318 03:18:25.986725       1 shared_informer.go:277] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+I0318 03:18:25.986868       1 shared_informer.go:277] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+I0318 03:18:25.986875       1 shared_informer.go:277] Caches are synced for RequestHeaderAuthRequestController
+I0318 03:18:26.500657       1 cluster.go:531] "Processed Node event" eventType="Join" nodeName="kind-worker" affectedExternalIPPoolNum=1
+I0318 03:18:26.507824       1 cluster.go:531] "Processed Node event" eventType="Join" nodeName="kind-worker2" affectedExternalIPPoolNum=1
+I0318 03:18:30.821655       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0318 03:18:30.821654       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0318 03:18:30.821695       1 egress_controller.go:1208] Starting watch for EgressGroup
+I0318 03:18:30.821726       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+W0318 03:18:30.822161       1 networkpolicy_controller.go:962] Failed to start watch for AddressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/addressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:18:30.822160       1 networkpolicy_controller.go:962] Failed to start watch for NetworkPolicy: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/networkpolicies?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:18:30.822170       1 networkpolicy_controller.go:962] Failed to start watch for AppliedToGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/appliedtogroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:18:30.822161       1 egress_controller.go:1219] Failed to start watch for EgressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:18:33.470185       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:18:33.470747       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:18:33.470769       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:18:33.470779       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:18:35.604151       1 agent.go:574] Deleting stale flows from previous round if any
+I0318 03:18:35.604194       1 agent.go:512] Persisting round number 1 to OVSDB
+I0318 03:18:35.605207       1 agent.go:517] Round number 1 was persisted to OVSDB
+I0318 03:18:35.822201       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0318 03:18:35.822301       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0318 03:18:35.822378       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0318 03:18:35.822456       1 egress_controller.go:1208] Starting watch for EgressGroup
+I0318 03:18:35.831519       1 egress_controller.go:1229] Started watch for EgressGroup
+I0318 03:18:35.831526       1 networkpolicy_controller.go:974] Started watch for NetworkPolicy
+I0318 03:18:35.831533       1 networkpolicy_controller.go:974] Started watch for AddressGroup
+I0318 03:18:35.831542       1 networkpolicy_controller.go:974] Started watch for AppliedToGroup
+I0318 03:18:35.831602       1 networkpolicy_controller.go:1004] Received 0 init events for AppliedToGroup
+I0318 03:18:35.831605       1 egress_controller.go:1257] Received 0 init events for EgressGroup
+I0318 03:18:35.831613       1 networkpolicy_controller.go:1004] Received 0 init events for NetworkPolicy
+I0318 03:18:35.831722       1 networkpolicy_controller.go:1004] Received 0 init events for AddressGroup
+I0318 03:18:43.471159       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:18:43.471343       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:18:43.471366       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:18:43.471379       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:18:53.471920       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:18:53.476523       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:18:53.476552       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:18:53.476573       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:19:03.476978       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:19:03.477020       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:19:03.477034       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:19:03.477044       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:19:13.478153       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:19:13.478217       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:19:13.478241       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:19:13.478261       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:19:23.479339       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:19:23.479383       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:19:23.479396       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:19:23.479405       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:19:33.480523       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:19:33.480590       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:19:33.480615       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:19:33.480635       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:19:43.480726       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:19:43.480773       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:19:43.480786       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:19:43.480797       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:19:53.481070       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:19:53.481124       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:19:53.481142       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:19:53.481152       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:20:03.481909       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:20:03.481955       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:20:03.481968       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:20:03.481978       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:20:13.482738       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:20:13.482781       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:20:13.482795       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:20:13.482804       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:20:23.484089       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:20:23.484152       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:20:23.484174       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:20:23.484192       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:20:33.484791       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:20:33.484833       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:20:33.484846       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:20:33.484856       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:20:43.485434       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:20:43.485478       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:20:43.485493       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:20:43.485506       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:20:53.486546       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:20:53.486609       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:20:53.486632       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:20:53.486658       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:21:03.487435       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:21:03.487478       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:21:03.487491       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:21:03.487500       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:21:13.487658       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:21:13.487731       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:21:13.487780       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:21:13.487802       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:21:23.488438       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:21:23.488486       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:21:23.488500       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:21:23.488509       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:21:33.488687       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:21:33.488746       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:21:33.488770       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:21:33.488792       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:21:43.489346       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:21:43.489382       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:21:43.489394       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:21:43.489404       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:21:53.490485       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:21:53.490534       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:21:53.490547       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:21:53.490556       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:22:03.491039       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:22:03.491100       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:22:03.491123       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:22:03.491141       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:22:13.491852       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:22:13.491869       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:22:13.491873       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:22:13.491875       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:22:23.492415       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:22:23.492459       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:22:23.492472       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:22:23.492482       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:22:33.492706       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:22:33.492776       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:22:33.492799       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:22:33.492818       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:22:35.135501       1 networkpolicy_controller.go:978] Stopped watch for NetworkPolicy, total items received: 0
+I0318 03:22:35.135533       1 networkpolicy_controller.go:978] Stopped watch for AppliedToGroup, total items received: 0
+I0318 03:22:35.135550       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0318 03:22:35.135570       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0318 03:22:35.135506       1 egress_controller.go:1232] Stopped watch for EgressGroup, total items received: 0
+I0318 03:22:35.135846       1 egress_controller.go:1208] Starting watch for EgressGroup
+I0318 03:22:35.135658       1 networkpolicy_controller.go:978] Stopped watch for AddressGroup, total items received: 0
+I0318 03:22:35.135962       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+W0318 03:22:35.136402       1 networkpolicy_controller.go:962] Failed to start watch for NetworkPolicy: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/networkpolicies?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:35.136510       1 networkpolicy_controller.go:962] Failed to start watch for AppliedToGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/appliedtogroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:35.136513       1 egress_controller.go:1219] Failed to start watch for EgressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:35.136647       1 networkpolicy_controller.go:962] Failed to start watch for AddressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/addressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:22:40.136302       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0318 03:22:40.136454       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0318 03:22:40.136607       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0318 03:22:40.136643       1 egress_controller.go:1208] Starting watch for EgressGroup
+W0318 03:22:40.137127       1 networkpolicy_controller.go:962] Failed to start watch for AppliedToGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/appliedtogroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:40.137126       1 networkpolicy_controller.go:962] Failed to start watch for AddressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/addressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:40.137162       1 egress_controller.go:1219] Failed to start watch for EgressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:40.137507       1 networkpolicy_controller.go:962] Failed to start watch for NetworkPolicy: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/networkpolicies?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:22:43.493934       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:22:43.493975       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:22:43.493987       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:22:43.493997       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:22:45.136320       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0318 03:22:45.136550       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0318 03:22:45.136680       1 egress_controller.go:1208] Starting watch for EgressGroup
+I0318 03:22:45.136708       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+W0318 03:22:45.136959       1 networkpolicy_controller.go:962] Failed to start watch for NetworkPolicy: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/networkpolicies?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:45.136979       1 networkpolicy_controller.go:962] Failed to start watch for AppliedToGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/appliedtogroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:45.137040       1 networkpolicy_controller.go:962] Failed to start watch for AddressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/addressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+W0318 03:22:45.137305       1 egress_controller.go:1219] Failed to start watch for EgressGroup: Get "https://10.96.203.251:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dkind-control-plane&watch=true": dial tcp 10.96.203.251:443: connect: connection refused
+I0318 03:22:50.137037       1 networkpolicy_controller.go:959] Starting watch for NetworkPolicy
+I0318 03:22:50.137048       1 egress_controller.go:1208] Starting watch for EgressGroup
+I0318 03:22:50.137055       1 networkpolicy_controller.go:959] Starting watch for AppliedToGroup
+I0318 03:22:50.137043       1 networkpolicy_controller.go:959] Starting watch for AddressGroup
+I0318 03:22:50.154532       1 egress_controller.go:1229] Started watch for EgressGroup
+I0318 03:22:50.154639       1 egress_controller.go:1257] Received 0 init events for EgressGroup
+I0318 03:22:50.154766       1 networkpolicy_controller.go:974] Started watch for AppliedToGroup
+I0318 03:22:50.154800       1 networkpolicy_controller.go:974] Started watch for NetworkPolicy
+I0318 03:22:50.154851       1 networkpolicy_controller.go:1004] Received 0 init events for AppliedToGroup
+I0318 03:22:50.154866       1 networkpolicy_controller.go:1004] Received 0 init events for NetworkPolicy
+I0318 03:22:50.155452       1 networkpolicy_controller.go:974] Started watch for AddressGroup
+I0318 03:22:50.155587       1 networkpolicy_controller.go:1004] Received 0 init events for AddressGroup
+I0318 03:22:53.494455       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:22:53.494497       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:22:53.494511       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:22:53.494520       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:23:03.495285       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:23:03.495351       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:23:03.495376       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:23:03.495394       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:23:13.495627       1 agent.go:143] "Node IPs" NodeCount=3
+I0318 03:23:13.495664       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:23:13.495677       1 agent.go:145] "Node IP" Node="kind-worker2" IP=[{"type":"InternalIP","address":"172.18.0.3"},{"type":"Hostname","address":"kind-worker2"}]
+I0318 03:23:13.495688       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:23:18.508094       1 node_route_controller.go:431] Deleting routes and flows to Node kind-worker2
+I0318 03:23:23.495939       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:23:23.495989       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:23:23.496005       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:23:33.496387       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:23:33.496431       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:23:33.496452       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:23:43.496581       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:23:43.496646       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:23:43.496669       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:23:53.497092       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:23:53.497145       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:23:53.497156       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:24:03.497355       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:24:03.497407       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:24:03.497423       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:24:13.498263       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:24:13.498328       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:24:13.498351       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:24:23.499095       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:24:23.499146       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:24:23.499159       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:24:23.499191       1 cluster.go:526] "Received a Node event but did not find the Node object" eventType="Leave" nodeName="kind-worker2"
+I0318 03:24:33.499379       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:24:33.499437       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:24:33.499459       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:24:43.499918       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:24:43.499930       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:24:43.499934       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:24:53.500833       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:24:53.500873       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:24:53.500886       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:25:03.501704       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:25:03.501740       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:25:03.501753       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]
+I0318 03:25:13.501944       1 agent.go:143] "Node IPs" NodeCount=2
+I0318 03:25:13.502008       1 agent.go:145] "Node IP" Node="kind-control-plane" IP=[{"type":"InternalIP","address":"172.18.0.2"},{"type":"Hostname","address":"kind-control-plane"}]
+I0318 03:25:13.502032       1 agent.go:145] "Node IP" Node="kind-worker" IP=[{"type":"InternalIP","address":"172.18.0.4"},{"type":"Hostname","address":"kind-worker"}]

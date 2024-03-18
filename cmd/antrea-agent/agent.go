@@ -23,6 +23,7 @@ import (
 	"github.com/spf13/afero"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
+	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/apiserver/pkg/server/options"
@@ -104,6 +105,7 @@ var ipv4Localhost = net.ParseIP("127.0.0.1")
 func run(o *Options) error {
 	klog.InfoS("LFX Mentorship Pre Task #5514", "Github username", "IRONICBo")
 	klog.InfoS("LFX Mentorship Pre Task #5514", "Pod name", env.GetPodName())
+	klog.InfoS("LFX Mentorship Pre Task #5514", "Pod name", env.GetPodName())
 	klog.InfoS("Starting Antrea agent", "version", version.GetFullVersion())
 
 	// Create K8s Clientset, CRD Clientset, Multicluster CRD Clientset and SharedInformerFactory for the given config.
@@ -125,6 +127,26 @@ func run(o *Options) error {
 	endpointsInformer := informerFactory.Core().V1().Endpoints()
 	endpointSliceInformer := informerFactory.Discovery().V1().EndpointSlices()
 	namespaceInformer := informerFactory.Core().V1().Namespaces()
+
+	// Print all node ips
+	// 每隔 10 秒打印一次 node ip
+	// 通过 nodeInformer.Lister().List(labels.Everything()) 获取所有 node
+	// 遍历所有 node，打印 node 的 name 和 status.addresses
+	go func() {
+		for {
+			nodes, err := nodeInformer.Lister().List(labels.Everything())
+			if err != nil {
+				klog.ErrorS(err, "Error listing nodes")
+				time.Sleep(10 * time.Second)
+				continue
+			}
+			klog.InfoS("Node IPs", "NodeCount", len(nodes))
+			for _, node := range nodes {
+				klog.InfoS("Node IP", "Node", node.Name, "IP", node.Status.Addresses)
+			}
+			time.Sleep(10 * time.Second)
+		}
+	}()
 
 	// Create Antrea Clientset for the given config.
 	antreaClientProvider := agent.NewAntreaClientProvider(o.config.AntreaClientConnection, k8sClient)
@@ -153,8 +175,10 @@ func run(o *Options) error {
 	enableFlowExporter := features.DefaultFeatureGate.Enabled(features.FlowExporter) && o.config.FlowExporter.Enable
 	var nodeIPTracker *nodeip.Tracker
 	if o.nodeType == config.K8sNode {
+		// Get node ip infos
 		nodeIPTracker = nodeip.NewTracker(nodeInformer)
 	}
+
 	// Bridging mode will connect the uplink interface to the OVS bridge.
 	connectUplinkToBridge := enableBridgingMode
 	ovsDatapathType := ovsconfig.OVSDatapathType(o.config.OVSDatapathType)
