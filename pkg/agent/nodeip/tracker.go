@@ -29,6 +29,8 @@ type Checker interface {
 	IsNodeIP(ip string) bool
 
 	HasSynced() bool
+
+	GetNodeIPs() map[string]string
 }
 
 type Tracker struct {
@@ -110,6 +112,12 @@ func (t *Tracker) IsNodeIP(ip string) bool {
 	defer t.mutex.RUnlock()
 	_, exists := t.nodeIPs[ip]
 	return exists
+}
+
+func (t *Tracker) GetNodeIPs() map[string]string {
+	t.mutex.RLock()
+	defer t.mutex.RUnlock()
+	return t.nodeIPs
 }
 
 func (t *Tracker) HasSynced() bool {

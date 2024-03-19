@@ -949,6 +949,14 @@ func run(o *Options) error {
 		go flowExporter.Run(stopCh)
 	}
 
+	// Start the node latency monitor.
+	nodeLatencyMonitor, err := NewNodeLatencyMonitor(nodeInformer, o.config.NodeLatencyMonitorInterval)
+	if err != nil {
+		return fmt.Errorf("error when creating NodeLatencyMonitor: %v", err)
+	}
+
+	go nodeLatencyMonitor.Run(stopCh)
+
 	<-stopCh
 	klog.Info("Stopping Antrea agent")
 	return nil
