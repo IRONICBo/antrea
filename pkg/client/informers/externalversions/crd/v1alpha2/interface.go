@@ -30,6 +30,8 @@ type Interface interface {
 	ExternalIPPools() ExternalIPPoolInformer
 	// IPPools returns a IPPoolInformer.
 	IPPools() IPPoolInformer
+	// NodeLatencyMonitors returns a NodeLatencyMonitorInformer.
+	NodeLatencyMonitors() NodeLatencyMonitorInformer
 	// TrafficControls returns a TrafficControlInformer.
 	TrafficControls() TrafficControlInformer
 }
@@ -63,6 +65,11 @@ func (v *version) ExternalIPPools() ExternalIPPoolInformer {
 // IPPools returns a IPPoolInformer.
 func (v *version) IPPools() IPPoolInformer {
 	return &iPPoolInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// NodeLatencyMonitors returns a NodeLatencyMonitorInformer.
+func (v *version) NodeLatencyMonitors() NodeLatencyMonitorInformer {
+	return &nodeLatencyMonitorInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
 
 // TrafficControls returns a TrafficControlInformer.
