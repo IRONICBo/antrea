@@ -930,6 +930,7 @@ func run(o *Options) error {
 		nodeLatencyMonitor := monitortool.NewNodeLatencyMonitor(
 			nodeInformer,
 			nodeLatencyMonitorInformer,
+			nodeConfig.GatewayConfig,
 		)
 		go nodeLatencyMonitor.Run(stopCh)
 	}
