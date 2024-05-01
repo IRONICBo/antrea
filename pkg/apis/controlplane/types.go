@@ -408,6 +408,31 @@ type NodeStatsSummary struct {
 	Multicast []MulticastGroupInfo
 }
 
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// NodeIPLatencyStat contains the latency stat of a Node.
+type NodeIPLatencyStat struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+
+	// The list of NodeIPLatency.
+	NodeIPLatencyList []NodeIPLatencyEntry `json:"nodeIPLatencyList,omitempty" protobuf:"bytes,2,opt,name=nodeIPLatencyList"`
+}
+
+// NodeIPLatencyEntry contains the latency stats of a Node.
+type NodeIPLatencyEntry struct {
+	// The node's name.
+	NodeName string `json:"nodeName,omitempty" protobuf:"bytes,1,opt,name=nodeName"`
+	// The node's gateway IP address.
+	GatewayIP string `json:"gatewayIPs,omitempty" protobuf:"bytes,1,opt,name=gatewayIPs"`
+	// The timestamp of the last send packet.
+	LastSendTime int64 `json:"lastSendTime,omitempty" protobuf:"bytes,2,opt,name=lastSendTime"`
+	// The timestamp of the last receive packet.
+	LastRecvTime int64 `json:"lastRecvTime,omitempty" protobuf:"bytes,3,opt,name=lastRecvTime"`
+	// The last valid rtt of the Node.
+	LastMeasuredRTT int64 `json:"lastMeasuredRTT,omitempty" protobuf:"bytes,4,opt,name=lastMeasuredRTT"`
+}
+
 // MulticastGroupInfo contains the list of Pods that have joined a multicast group, for a given Node.
 type MulticastGroupInfo struct {
 	// Group is the IP of the multicast group.

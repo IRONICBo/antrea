@@ -24,7 +24,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes/fake"
+	componentbaseconfig "k8s.io/component-base/config"
 
+	"antrea.io/antrea/pkg/agent"
 	fakeversioned "antrea.io/antrea/pkg/client/clientset/versioned/fake"
 	crdinformers "antrea.io/antrea/pkg/client/informers/externalversions"
 
@@ -63,7 +65,9 @@ func TestNewNodeLatencyMonitor(t *testing.T) {
 	crdInformerFactory := crdinformers.NewSharedInformerFactory(crdClient, 0)
 	nodeInformer := informerFactory.Core().V1().Nodes()
 	nlmInformer := crdInformerFactory.Crd().V1alpha1().NodeLatencyMonitors()
+	antreaClientProvider := agent.NewAntreaClientProvider(componentbaseconfig.ClientConnectionConfiguration{}, k8sClient)
 	nodeLatencyMonitor := NewNodeLatencyMonitor(
+		antreaClientProvider,
 		nodeInformer,
 		nlmInformer,
 		&config.NodeConfig{},

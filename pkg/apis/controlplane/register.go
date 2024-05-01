@@ -67,6 +67,7 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&SupportBundleCollection{},
 		&SupportBundleCollectionList{},
 		&SupportBundleCollectionStatus{},
+		&NodeIPLatencyStat{},
 	)
 	return nil
 }

@@ -85,6 +85,13 @@ rules:
   - apiGroups:
       - controlplane.antrea.io
     resources:
+      - nodeiplatencystats
+    verbs:
+      - create
+      - get
+  - apiGroups:
+      - controlplane.antrea.io
+    resources:
       - networkpolicies/status
     verbs:
       - create

@@ -15,6 +15,7 @@
 package monitortool
 
 import (
+	"context"
 	"net"
 	"os"
 	"sync/atomic"
@@ -24,10 +25,12 @@ import (
 	"golang.org/x/net/ipv4"
 	"golang.org/x/net/ipv6"
 	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	coreinformers "k8s.io/client-go/informers/core/v1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/klog/v2"
 
+	"antrea.io/antrea/pkg/agent"
 	config "antrea.io/antrea/pkg/agent/config"
 	"antrea.io/antrea/pkg/apis/crd/v1alpha1"
 	crdinformers "antrea.io/antrea/pkg/client/informers/externalversions/crd/v1alpha1"
@@ -81,6 +84,9 @@ type NodeLatencyMonitor struct {
 	// isIPv6Enabled is the flag to indicate if the IPv6 is enabled.
 	isIPv6Enabled bool
 
+	// antreaClientProvider provides interfaces to get antreaClient, which will be used to report the statistics to the
+	// antrea-controller.
+	antreaClientProvider agent.AntreaClientProvider
 	// The map of node name to node info, it will changed by node watcher
 	nodeInformer coreinformers.NodeInformer
 	// nodeLatencyMonitorInformer is the informer for the NodeLatencyMonitor CRD.
@@ -95,11 +101,12 @@ type LatencyConfig struct {
 	Interval time.Duration
 }
 
-func NewNodeLatencyMonitor(nodeInformer coreinformers.NodeInformer,
+func NewNodeLatencyMonitor(antreaClientProvider agent.AntreaClientProvider, nodeInformer coreinformers.NodeInformer,
 	nlmInformer crdinformers.NodeLatencyMonitorInformer,
 	nodeConfig *config.NodeConfig,
 	trafficEncapMode config.TrafficEncapModeType) *NodeLatencyMonitor {
 	m := &NodeLatencyMonitor{
+		antreaClientProvider:       antreaClientProvider,
 		nodeConfig:                 nodeConfig,
 		trafficEncapMode:           trafficEncapMode,
 		latencyStore:               NewLatencyStore(trafficEncapMode.IsNetworkPolicyOnly()),
@@ -376,13 +383,21 @@ func (m *NodeLatencyMonitor) pingAll(ipv4Socket, ipv6Socket net.PacketConn) {
 	}
 }
 
-func (m *NodeLatencyMonitor) testPrint() {
-	// Print all connection status for debug
-	// It will be removed when collector is ready
-	klog.InfoS("Finish to ping all nodes")
-	entries := m.latencyStore.ListLatencies()
-	for key, entry := range entries {
-		klog.InfoS("NodeIPLatency status", "Key", key, "Entry", entry)
+func (m *NodeLatencyMonitor) report() {
+	// Try to report the latency to the control plane
+	klog.InfoS("Start to report the latency to the control plane")
+
+	// Convert to NodeIPLatencyStat
+	latencyStats := m.latencyStore.calculateNodeIPLatencyStat()
+	antreaClient, err := m.antreaClientProvider.GetAntreaClient()
+	if err != nil {
+		klog.ErrorS(err, "Failed to get Antrea client")
+		return
+	}
+	_, err = antreaClient.ControlplaneV1beta2().NodeIPLatencyStats().Create(context.TODO(), latencyStats, metav1.CreateOptions{})
+	if err != nil {
+		klog.ErrorS(err, "Failed to report the latency to the control plane")
+		return
 	}
 }
 
@@ -436,8 +451,8 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 		case <-tickerCh:
 			// Try to send pingAll signal
 			m.pingAll(ipv4Socket, ipv6Socket)
-			// Test print
-			m.testPrint()
+			// Report last latency
+			m.report()
 		case <-tickerStopCh:
 			// Close current sockets
 			if ipv4Socket != nil {

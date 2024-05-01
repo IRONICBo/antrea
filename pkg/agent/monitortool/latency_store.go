@@ -24,6 +24,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/klog/v2"
 
+	"antrea.io/antrea/pkg/apis/controlplane"
 	"antrea.io/antrea/pkg/util/k8s"
 )
 
@@ -89,6 +90,38 @@ func (l *LatencyStore) ListLatencies() map[string]*NodeIPLatencyEntry {
 	defer l.mutex.RUnlock()
 
 	return l.nodeIPLatencyMap
+}
+
+func (l *LatencyStore) calculateNodeIPLatencyStat() *controlplane.NodeIPLatencyStat {
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
+
+	latencyStat := &controlplane.NodeIPLatencyStat{
+		NodeIPLatencyList: make([]controlplane.NodeIPLatencyEntry, 0),
+	}
+
+	for nodeIP, entry := range l.nodeIPLatencyMap {
+		// find name
+		nodeName := ""
+		for name, ips := range l.nodeGatewayMap {
+			for _, ip := range ips {
+				if ip.String() == nodeIP {
+					nodeName = name
+					break
+				}
+			}
+		}
+
+		latencyStat.NodeIPLatencyList = append(latencyStat.NodeIPLatencyList, controlplane.NodeIPLatencyEntry{
+			NodeName:        nodeName,
+			GatewayIP:       nodeIP,
+			LastSendTime:    entry.LastSendTime.Unix(),
+			LastRecvTime:    entry.LastRecvTime.Unix(),
+			LastMeasuredRTT: entry.LastMeasuredRTT.Nanoseconds(),
+		})
+	}
+
+	return latencyStat
 }
 
 func (l *LatencyStore) addNode(node *corev1.Node) {

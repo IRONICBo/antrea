@@ -927,6 +927,7 @@ func run(o *Options) error {
 	// Start the node latency monitor.
 	if features.DefaultFeatureGate.Enabled(features.NodeLatencyMonitor) {
 		nodeLatencyMonitor := monitortool.NewNodeLatencyMonitor(
+			antreaClientProvider,
 			nodeInformer,
 			nodeLatencyMonitorInformer,
 			nodeConfig,
