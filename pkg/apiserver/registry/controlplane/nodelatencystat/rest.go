@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package nodeiplatencystat
+package nodelatencystat
 
 import (
 	"context"
 
 	"antrea.io/antrea/pkg/apis/controlplane"
-	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -28,7 +27,7 @@ import (
 // nodeLatencyCollector is the interface required by the handler.
 type nodeLatencyCollector interface {
 	Collect(summary *controlplane.NodeIPLatencyStat)
-	Get(name string) (*controlplane.NodeIPLatencyStat, error)
+	Get(name string) *controlplane.NodeIPLatencyStat
 }
 
 type REST struct {
@@ -42,7 +41,7 @@ var (
 )
 
 // NewREST returns a REST object that will work against API services.
-func NewREST(c statsCollector) *REST {
+func NewREST(c nodeLatencyCollector) *REST {
 	return &REST{c}
 }
 
@@ -63,11 +62,7 @@ func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation 
 
 func (r *REST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
 	// Try to retrieve the NodeIPLatencyStat from the store.
-	entry, err := r.nodeLatencyCollector.Get(name)
-	if err != nil {
-		return nil, errors.NewInternalError(err)
-	}
-
+	entry := r.nodeLatencyCollector.Get(name)
 	return entry, nil
 }
 

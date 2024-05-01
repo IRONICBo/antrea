@@ -44,6 +44,7 @@ import (
 	"antrea.io/antrea/pkg/apiserver/handlers/loglevel"
 	"antrea.io/antrea/pkg/apiserver/handlers/webhook"
 	"antrea.io/antrea/pkg/apiserver/registry/controlplane/egressgroup"
+	"antrea.io/antrea/pkg/apiserver/registry/controlplane/nodelatencystat"
 	"antrea.io/antrea/pkg/apiserver/registry/controlplane/nodestatssummary"
 	"antrea.io/antrea/pkg/apiserver/registry/controlplane/supportbundlecollection"
 	"antrea.io/antrea/pkg/apiserver/registry/networkpolicy/addressgroup"
@@ -66,6 +67,7 @@ import (
 	"antrea.io/antrea/pkg/controller/externalippool"
 	"antrea.io/antrea/pkg/controller/ipam"
 	controllernetworkpolicy "antrea.io/antrea/pkg/controller/networkpolicy"
+	"antrea.io/antrea/pkg/controller/nodelatency"
 	"antrea.io/antrea/pkg/controller/querier"
 	"antrea.io/antrea/pkg/controller/stats"
 	controllerbundlecollection "antrea.io/antrea/pkg/controller/supportbundlecollection"
@@ -121,6 +123,7 @@ type ExtraConfig struct {
 	networkPolicyStatusController *controllernetworkpolicy.StatusController
 	bundleCollectionController    *controllerbundlecollection.Controller
 	traceflowController           *traceflow.Controller
+	nodeLatencyAggregator         *nodelatency.Aggregator
 }
 
 // Config defines the config for Antrea apiserver.
@@ -206,6 +209,7 @@ func installAPIGroup(s *APIServer, c completedConfig) error {
 	groupAssociationStorage := groupassociation.NewREST(c.extraConfig.networkPolicyController)
 	ipGroupAssociationStorage := ipgroupassociation.NewREST(c.extraConfig.podInformer, c.extraConfig.eeInformer, c.extraConfig.networkPolicyController, c.extraConfig.networkPolicyController)
 	nodeStatsSummaryStorage := nodestatssummary.NewREST(c.extraConfig.statsAggregator)
+	nodeLatencyStatStorage := nodelatencystat.NewREST(c.extraConfig.nodeLatencyAggregator)
 	egressGroupStorage := egressgroup.NewREST(c.extraConfig.egressGroupStore)
 	bundleCollectionStorage := supportbundlecollection.NewREST(c.extraConfig.bundleCollectionStore)
 	bundleCollectionStatusStorage := supportbundlecollection.NewStatusREST(c.extraConfig.bundleCollectionController)
@@ -217,6 +221,7 @@ func installAPIGroup(s *APIServer, c completedConfig) error {
 	cpv1beta2Storage["networkpolicies/status"] = networkPolicyStatusStorage
 	cpv1beta2Storage["networkpolicyevaluation"] = networkPolicyEvaluationStorage
 	cpv1beta2Storage["nodestatssummaries"] = nodeStatsSummaryStorage
+	cpv1beta2Storage["nodelatencystats"] = nodeLatencyStatStorage
 	cpv1beta2Storage["groupassociations"] = groupAssociationStorage
 	cpv1beta2Storage["ipgroupassociations"] = ipGroupAssociationStorage
 	cpv1beta2Storage["clustergroupmembers"] = clusterGroupMembershipStorage

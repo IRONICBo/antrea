@@ -415,14 +415,14 @@ type NodeIPLatencyStat struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
 
+	// The node's name.
+	NodeName string `json:"nodeName,omitempty" protobuf:"bytes,1,opt,name=nodeName"`
 	// The list of NodeIPLatency.
 	NodeIPLatencyList []NodeIPLatencyEntry `json:"nodeIPLatencyList,omitempty" protobuf:"bytes,2,opt,name=nodeIPLatencyList"`
 }
 
 // NodeIPLatencyEntry contains the latency stats of a Node.
 type NodeIPLatencyEntry struct {
-	// The node's name.
-	NodeName string `json:"nodeName,omitempty" protobuf:"bytes,1,opt,name=nodeName"`
 	// The node's gateway IP address.
 	GatewayIP string `json:"gatewayIPs,omitempty" protobuf:"bytes,1,opt,name=gatewayIPs"`
 	// The timestamp of the last send packet.

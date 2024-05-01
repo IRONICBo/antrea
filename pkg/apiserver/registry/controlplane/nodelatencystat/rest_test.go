@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package nodeiplatencystat
+package nodelatencystat
 
 import (
 	"context"
@@ -36,6 +36,10 @@ type fakeCollector struct {
 
 func (f *fakeCollector) Collect(summary *controlplane.NodeIPLatencyStat) {
 	f.gotSummary = summary
+}
+
+func (f *fakeCollector) Get(name string) (*controlplane.NodeIPLatencyStat, error) {
+	return nil, nil
 }
 
 func TestRESTCreate(t *testing.T) {
