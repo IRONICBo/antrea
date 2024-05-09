@@ -925,7 +925,7 @@ func run(o *Options) error {
 	}
 
 	// Start the node latency monitor.
-	if features.DefaultFeatureGate.Enabled(features.NodeLatencyMonitor) {
+	if features.DefaultFeatureGate.Enabled(features.NodeLatencyMonitor) && o.nodeType == config.K8sNode {
 		nodeLatencyMonitor := monitortool.NewNodeLatencyMonitor(
 			nodeInformer,
 			nodeLatencyMonitorInformer,
