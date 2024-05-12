@@ -94,14 +94,6 @@ func (l *LatencyStore) SetNodeIPLatencyEntry(nodeIP string, mutator func(entry *
 	mutator(entry)
 }
 
-// ListLatencies returns the map of Node IP to latency entry
-func (l *LatencyStore) ListLatencies() map[string]*NodeIPLatencyEntry {
-	l.mutex.RLock()
-	defer l.mutex.RUnlock()
-
-	return l.nodeIPLatencyMap
-}
-
 // addNode adds a Node to the latency store
 func (l *LatencyStore) addNode(node *corev1.Node) {
 	l.mutex.Lock()
@@ -128,13 +120,10 @@ func (l *LatencyStore) deleteNode(node *corev1.Node) {
 	delete(l.nodeTargetIPsMap, node.Name)
 }
 
-// updateNode updates a Node in the latency store
-func (l *LatencyStore) updateNode(old *corev1.Node, new *corev1.Node) {
+// updateNode updates a Node name in the latency store
+func (l *LatencyStore) updateNode(new *corev1.Node) {
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
-
-	// Delete from the node IP map
-	delete(l.nodeTargetIPsMap, old.Name)
 
 	// Node name will not be changed in the same Node update operation.
 	l.updateNodeMap(new)
@@ -196,30 +185,21 @@ func getGWIPs(node *corev1.Node) ([]net.IP, error) {
 	if len(podCIDRStrs) == 0 {
 		// Skip the Node if it does not have a PodCIDR.
 		err := errors.New("node does not have a PodCIDR")
-		return gwIPs, err
+		return nil, err
 	}
 
 	// the 0th entry must match the podCIDR field. It may contain at most 1 value for
 	// each of IPv4 and IPv6.
 	// Both podCIDRStrs need to be parsed to get the gateway IP.
 	for _, podCIDR := range podCIDRStrs {
-		if podCIDR == "" {
-			err := errors.New("PodCIDR is empty")
-			return gwIPs, err
-		}
-
 		peerPodCIDRAddr, _, err := net.ParseCIDR(podCIDR)
 		if err != nil {
-			return gwIPs, err
+			return nil, err
 		}
 
 		// Add first IP in CIDR to the map
 		peerGatewayIP := ip.NextIP(peerPodCIDRAddr)
-
-		// Only add the IP if it is an IPv4 or IPv6 address.
-		if peerGatewayIP.To4() != nil || peerGatewayIP.To16() != nil {
-			gwIPs = append(gwIPs, peerGatewayIP)
-		}
+		gwIPs = append(gwIPs, peerGatewayIP)
 	}
 
 	return gwIPs, nil
@@ -245,12 +225,19 @@ func (l *LatencyStore) GetNodeIPs(nodeName string) []net.IP {
 	return l.nodeTargetIPsMap[nodeName]
 }
 
-// ListNodeIPs returns the map of Node name to target IPs.
-func (l *LatencyStore) ListNodeIPs() map[string][]net.IP {
+// ListNodeIPs returns the list of all Node IPs in the latency store.
+func (l *LatencyStore) ListNodeIPs() []net.IP {
 	l.mutex.RLock()
 	defer l.mutex.RUnlock()
 
-	return l.nodeTargetIPsMap
+	// Allocate a slice with a capacity equal to twice the size of the map,
+	// as we can have up to 2 IP addresses per Node in dual-stack case.
+	nodeIPs := make([]net.IP, 0, 2*len(l.nodeTargetIPsMap))
+	for _, ips := range l.nodeTargetIPsMap {
+		nodeIPs = append(nodeIPs, ips...)
+	}
+
+	return nodeIPs
 }
 
 // CleanUp cleans up the latency store.

@@ -134,9 +134,8 @@ func (m *NodeLatencyMonitor) onNodeAdd(obj interface{}) {
 
 // onNodeUpdate is the event handler for updating Node.
 func (m *NodeLatencyMonitor) onNodeUpdate(oldObj, newObj interface{}) {
-	oldNode := oldObj.(*corev1.Node)
 	node := newObj.(*corev1.Node)
-	m.latencyStore.updateNode(oldNode, node)
+	m.latencyStore.updateNode(node)
 
 	klog.V(4).InfoS("Node updated", "Node", klog.KObj(node))
 }
@@ -248,95 +247,89 @@ func (m *NodeLatencyMonitor) sendPing(socket net.PacketConn, addr net.IP) error 
 }
 
 // recvPing receives an ICMP message from the target IP address.
-func (m *NodeLatencyMonitor) recvPing(socket net.PacketConn, isIPv4 bool, stopCh <-chan struct{}) {
+func (m *NodeLatencyMonitor) recvPing(socket net.PacketConn, isIPv4 bool) {
 	// We only expect small packets, if we receive a larger packet, we will drop the extra data.
 	readBuffer := make([]byte, 128)
 	for {
-		select {
-		case <-stopCh:
-			return
-		default:
-			n, peer, err := socket.ReadFrom(readBuffer)
-			if err != nil {
-				if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-					klog.ErrorS(err, "Timeout reading ICMP message")
-					continue
-				}
-				klog.ErrorS(err, "Failed to read ICMP message")
+		// If the socket is closed, it will return
+		n, peer, err := socket.ReadFrom(readBuffer)
+		if err != nil {
+			klog.ErrorS(err, "Failed to read ICMP message")
+			// If the error is not a timeout error, break the loop
+			if nerr, ok := err.(net.Error); !ok || !nerr.Timeout() {
+				return
 			}
-
-			destIP := peer.String()
-
-			// Parse the ICMP message
-			var msg *icmp.Message
-			if isIPv4 {
-				msg, err = icmp.ParseMessage(ProtocolICMP, readBuffer[:n])
-				if err != nil {
-					klog.ErrorS(err, "Failed to parse ICMP message")
-					continue
-				}
-				if msg.Type != ipv4.ICMPTypeEchoReply {
-					klog.V(4).InfoS("Failed to match ICMPTypeEchoReply")
-					continue
-				}
-			} else {
-				msg, err = icmp.ParseMessage(ProtocolICMPv6, readBuffer)
-				if err != nil {
-					klog.ErrorS(err, "Failed to parse ICMP message")
-					continue
-				}
-				if msg.Type != ipv6.ICMPTypeEchoReply {
-					klog.V(4).InfoS("Failed to match ICMPTypeEchoReply")
-					continue
-				}
-			}
-
-			echo, ok := msg.Body.(*icmp.Echo)
-			if !ok {
-				klog.ErrorS(nil, "Failed to assert type as *icmp.Echo")
-				continue
-			}
-
-			klog.V(4).InfoS("Recv ICMP message", "IP", destIP, "echo", echo)
-
-			// Parse the time from the ICMP data
-			sentTime, err := time.Parse(time.RFC3339Nano, string(echo.Data))
-			if err != nil {
-				klog.ErrorS(err, "Failed to parse time from ICMP data")
-				continue
-			}
-
-			// Calculate the round-trip time
-			end := time.Now()
-			rtt := end.Sub(sentTime)
-
-			// Update the latency store
-			mutator := func(entry *NodeIPLatencyEntry) {
-				entry.LastSendTime = sentTime
-				entry.LastRecvTime = end
-				entry.LastMeasuredRTT = rtt
-			}
-			m.latencyStore.SetNodeIPLatencyEntry(destIP, mutator)
 		}
+
+		destIP := peer.String()
+
+		// Parse the ICMP message
+		var msg *icmp.Message
+		if isIPv4 {
+			msg, err = icmp.ParseMessage(ProtocolICMP, readBuffer[:n])
+			if err != nil {
+				klog.ErrorS(err, "Failed to parse ICMP message")
+				continue
+			}
+			if msg.Type != ipv4.ICMPTypeEchoReply {
+				klog.V(4).InfoS("Failed to match ICMPTypeEchoReply")
+				continue
+			}
+		} else {
+			msg, err = icmp.ParseMessage(ProtocolICMPv6, readBuffer)
+			if err != nil {
+				klog.ErrorS(err, "Failed to parse ICMP message")
+				continue
+			}
+			if msg.Type != ipv6.ICMPTypeEchoReply {
+				klog.V(4).InfoS("Failed to match ICMPTypeEchoReply")
+				continue
+			}
+		}
+
+		echo, ok := msg.Body.(*icmp.Echo)
+		if !ok {
+			klog.ErrorS(nil, "Failed to assert type as *icmp.Echo")
+			continue
+		}
+
+		klog.V(4).InfoS("Recv ICMP message", "IP", destIP, "echo", echo)
+
+		// Parse the time from the ICMP data
+		sentTime, err := time.Parse(time.RFC3339Nano, string(echo.Data))
+		if err != nil {
+			klog.ErrorS(err, "Failed to parse time from ICMP data")
+			continue
+		}
+
+		// Calculate the round-trip time
+		end := time.Now()
+		rtt := end.Sub(sentTime)
+
+		// Update the latency store
+		mutator := func(entry *NodeIPLatencyEntry) {
+			entry.LastSendTime = sentTime
+			entry.LastRecvTime = end
+			entry.LastMeasuredRTT = rtt
+		}
+		m.latencyStore.SetNodeIPLatencyEntry(destIP, mutator)
 	}
 }
 
 // pingAll sends ICMP messages to all the Nodes.
 func (m *NodeLatencyMonitor) pingAll(ipv4Socket, ipv6Socket net.PacketConn) {
 	nodeIPs := m.latencyStore.ListNodeIPs()
-	for name, toIPs := range nodeIPs {
-		for _, toIP := range toIPs {
-			if toIP.To4() != nil && ipv4Socket != nil {
-				if err := m.sendPing(ipv4Socket, toIP); err != nil {
-					klog.V(4).InfoS("Failed to send ICMP message to Node", "Node name", name, "Node IP", toIP)
-				}
-			} else if toIP.To16() != nil && ipv6Socket != nil {
-				if err := m.sendPing(ipv6Socket, toIP); err != nil {
-					klog.ErrorS(err, "Failed to send ICMP message to Node")
-				}
-			} else {
-				klog.ErrorS(nil, "Failed to send ICMP message to Node")
+	for _, toIP := range nodeIPs {
+		if toIP.To4() != nil && ipv4Socket != nil {
+			if err := m.sendPing(ipv4Socket, toIP); err != nil {
+				klog.ErrorS(err, "Failed to send ICMP message to Node", "IP", toIP)
 			}
+		} else if toIP.To16() != nil && ipv6Socket != nil {
+			if err := m.sendPing(ipv6Socket, toIP); err != nil {
+				klog.ErrorS(err, "Failed to send ICMP message to Node", "IP", toIP)
+			}
+		} else {
+			klog.ErrorS(nil, "Failed to send ICMP message to Node")
 		}
 	}
 }
@@ -357,7 +350,6 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 	var tickerCh <-chan time.Time
 	var ipv4Socket, ipv6Socket net.PacketConn
 	var err error
-	tickerStopCh := make(chan struct{})
 
 	defer func() {
 		if ipv4Socket != nil {
@@ -368,9 +360,6 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 		}
 		if ticker != nil {
 			ticker.Stop()
-		}
-		if tickerStopCh != nil {
-			close(tickerStopCh)
 		}
 	}()
 
@@ -389,20 +378,18 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 		case <-tickerCh:
 			// Try to send pingAll signal
 			m.pingAll(ipv4Socket, ipv6Socket)
-		case <-tickerStopCh:
-			// Close current sockets
+		case <-stopCh:
+			// Close current sockets, the recvPing will stop by itself
 			if ipv4Socket != nil {
 				ipv4Socket.Close()
 			}
 			if ipv6Socket != nil {
 				ipv6Socket.Close()
 			}
-		case <-stopCh:
 			// Stop the ticker loop
 			if ticker != nil {
 				ticker.Stop()
 			}
-			tickerStopCh <- struct{}{}
 			return
 		case <-m.latencyConfigChanged:
 			// Start or stop the pingAll goroutine based on the latencyConfig
@@ -420,7 +407,11 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 						klog.ErrorS(err, "Failed to create ICMP socket for IPv4")
 						return
 					}
-					go m.recvPing(ipv4Socket, true, tickerStopCh)
+					if err := ipv4Socket.SetDeadline(time.Now().Add(m.latencyConfig.Interval * time.Second)); err != nil {
+						klog.ErrorS(err, "Failed to set deadline for ICMP socket for IPv4")
+						return
+					}
+					go m.recvPing(ipv4Socket, true)
 				}
 				if ipv6Socket == nil && m.isIPv6Enabled {
 					// Create a new socket for IPv6 when the gatewayConfig is IPv6-only
@@ -429,7 +420,11 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 						klog.ErrorS(err, "Failed to create ICMP socket for IPv6")
 						return
 					}
-					go m.recvPing(ipv6Socket, false, tickerStopCh)
+					if err := ipv6Socket.SetDeadline(time.Now().Add(m.latencyConfig.Interval * time.Second)); err != nil {
+						klog.ErrorS(err, "Failed to set deadline for ICMP socket for IPv4")
+						return
+					}
+					go m.recvPing(ipv6Socket, false)
 				}
 			} else {
 				// latencyConfig deleted
@@ -437,7 +432,6 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 					ticker.Stop()
 					ticker = nil
 				}
-				tickerStopCh <- struct{}{}
 				m.latencyStore.CleanUp()
 			}
 		}
