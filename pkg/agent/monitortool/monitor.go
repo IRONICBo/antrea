@@ -28,6 +28,7 @@ import (
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/klog/v2"
 
+	"antrea.io/antrea/pkg/agent"
 	config "antrea.io/antrea/pkg/agent/config"
 	"antrea.io/antrea/pkg/apis/crd/v1alpha1"
 	crdinformers "antrea.io/antrea/pkg/client/informers/externalversions/crd/v1alpha1"
@@ -73,6 +74,8 @@ type NodeLatencyMonitor struct {
 	// isIPv6Enabled is the flag to indicate whether the IPv6 is enabled.
 	isIPv6Enabled bool
 
+	// antreaClientProvider provides interfaces to get antreaClient, which will be used to report the statistics
+	antreaClientProvider       agent.AntreaClientProvider
 	nodeInformer               coreinformers.NodeInformer
 	nodeLatencyMonitorInformer crdinformers.NodeLatencyMonitorInformer
 }
@@ -86,7 +89,8 @@ type LatencyConfig struct {
 }
 
 // NewNodeLatencyMonitor creates a new NodeLatencyMonitor.
-func NewNodeLatencyMonitor(nodeInformer coreinformers.NodeInformer,
+func NewNodeLatencyMonitor(antreaClientProvider agent.AntreaClientProvider,
+	nodeInformer coreinformers.NodeInformer,
 	nlmInformer crdinformers.NodeLatencyMonitorInformer,
 	nodeConfig *config.NodeConfig,
 	trafficEncapMode config.TrafficEncapModeType) *NodeLatencyMonitor {
@@ -94,6 +98,7 @@ func NewNodeLatencyMonitor(nodeInformer coreinformers.NodeInformer,
 		latencyStore:               NewLatencyStore(trafficEncapMode.IsNetworkPolicyOnly()),
 		latencyConfig:              &LatencyConfig{Enable: false},
 		latencyConfigChanged:       make(chan struct{}, 1),
+		antreaClientProvider:       antreaClientProvider,
 		nodeInformer:               nodeInformer,
 		nodeLatencyMonitorInformer: nlmInformer,
 	}
