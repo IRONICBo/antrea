@@ -15,16 +15,20 @@
 package monitortool
 
 import (
+	"context"
 	"net"
 	"os"
 	"sync"
 	"sync/atomic"
 	"time"
 
+	stv1aplpha1 "antrea.io/antrea/pkg/apis/stats/v1alpha1"
+	"antrea.io/antrea/pkg/util/env"
 	"golang.org/x/net/icmp"
 	"golang.org/x/net/ipv4"
 	"golang.org/x/net/ipv6"
 	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	coreinformers "k8s.io/client-go/informers/core/v1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/klog/v2"
@@ -124,7 +128,7 @@ func (m *NodeLatencyMonitor) onNodeAdd(obj interface{}) {
 	node := obj.(*corev1.Node)
 	m.latencyStore.addNode(node)
 
-	klog.V(4).InfoS("Node added", "Node", klog.KObj(node))
+	klog.InfoS("Node added", "Node", klog.KObj(node))
 }
 
 // onNodeUpdate is the event handler for updating Node.
@@ -132,7 +136,7 @@ func (m *NodeLatencyMonitor) onNodeUpdate(oldObj, newObj interface{}) {
 	node := newObj.(*corev1.Node)
 	m.latencyStore.updateNode(node)
 
-	klog.V(4).InfoS("Node updated", "Node", klog.KObj(node))
+	klog.InfoS("Node updated", "Node", klog.KObj(node))
 }
 
 // onNodeDelete is the event handler for deleting Node.
@@ -157,7 +161,7 @@ func (m *NodeLatencyMonitor) onNodeDelete(obj interface{}) {
 // onNodeLatencyMonitorAdd is the event handler for adding NodeLatencyMonitor.
 func (m *NodeLatencyMonitor) onNodeLatencyMonitorAdd(obj interface{}) {
 	nlm := obj.(*v1alpha1.NodeLatencyMonitor)
-	klog.V(4).InfoS("NodeLatencyMonitor added", "NodeLatencyMonitor", klog.KObj(nlm))
+	klog.InfoS("NodeLatencyMonitor added", "NodeLatencyMonitor", klog.KObj(nlm))
 
 	m.updateLatencyConfig(nlm)
 }
@@ -166,7 +170,7 @@ func (m *NodeLatencyMonitor) onNodeLatencyMonitorAdd(obj interface{}) {
 func (m *NodeLatencyMonitor) onNodeLatencyMonitorUpdate(oldObj, newObj interface{}) {
 	oldNLM := oldObj.(*v1alpha1.NodeLatencyMonitor)
 	newNLM := newObj.(*v1alpha1.NodeLatencyMonitor)
-	klog.V(4).InfoS("NodeLatencyMonitor updated", "NodeLatencyMonitor", klog.KObj(newNLM))
+	klog.InfoS("NodeLatencyMonitor updated", "NodeLatencyMonitor", klog.KObj(newNLM))
 
 	if oldNLM.GetGeneration() == newNLM.GetGeneration() {
 		return
@@ -190,7 +194,7 @@ func (m *NodeLatencyMonitor) updateLatencyConfig(nlm *v1alpha1.NodeLatencyMonito
 // onNodeLatencyMonitorDelete is the event handler for deleting NodeLatencyMonitor.
 func (m *NodeLatencyMonitor) onNodeLatencyMonitorDelete(obj interface{}) {
 	m.latencyConfig = &LatencyConfig{Enable: false}
-	klog.V(4).InfoS("NodeLatencyMonitor deleted")
+	klog.InfoS("NodeLatencyMonitor deleted")
 
 	m.latencyConfigChanged <- struct{}{}
 }
@@ -219,7 +223,7 @@ func (m *NodeLatencyMonitor) sendPing(socket net.PacketConn, addr net.IP) error 
 		Code: 0,
 		Body: body,
 	}
-	klog.V(4).InfoS("Sending ICMP message", "IP", ip, "SeqID", seqID, "body", body)
+	klog.InfoS("Sending ICMP message", "IP", ip, "SeqID", seqID, "body", body)
 
 	// Serialize the ICMP message
 	msgBytes, err := msg.Marshal(nil)
@@ -267,7 +271,7 @@ func (m *NodeLatencyMonitor) recvPing(socket net.PacketConn, isIPv4 bool) {
 				continue
 			}
 			if msg.Type != ipv4.ICMPTypeEchoReply {
-				klog.V(4).InfoS("Failed to match ICMPTypeEchoReply", "Msg", msg)
+				klog.InfoS("Failed to match ICMPTypeEchoReply", "Msg", msg)
 				continue
 			}
 		} else {
@@ -277,7 +281,7 @@ func (m *NodeLatencyMonitor) recvPing(socket net.PacketConn, isIPv4 bool) {
 				continue
 			}
 			if msg.Type != ipv6.ICMPTypeEchoReply {
-				klog.V(4).InfoS("Failed to match ICMPTypeEchoReply", "Msg", msg)
+				klog.InfoS("Failed to match ICMPTypeEchoReply", "Msg", msg)
 				continue
 			}
 		}
@@ -288,7 +292,7 @@ func (m *NodeLatencyMonitor) recvPing(socket net.PacketConn, isIPv4 bool) {
 			continue
 		}
 
-		klog.V(4).InfoS("Recv ICMP message", "IP", destIP, "Msg", msg)
+		klog.InfoS("Recv ICMP message", "IP", destIP, "Msg", msg)
 
 		// Parse the time from the ICMP data
 		sentTime, err := time.Parse(time.RFC3339Nano, string(echo.Data))
@@ -300,7 +304,7 @@ func (m *NodeLatencyMonitor) recvPing(socket net.PacketConn, isIPv4 bool) {
 		// Calculate the round-trip time
 		end := time.Now()
 		rtt := end.Sub(sentTime)
-		klog.V(4).InfoS("Updating latency entry for Node IP", "IP", destIP, "lastSendTime", sentTime, "lastRecvTime", end, "RTT", rtt)
+		klog.InfoS("Updating latency entry for Node IP", "IP", destIP, "lastSendTime", sentTime, "lastRecvTime", end, "RTT", rtt)
 
 		// Update the latency store
 		mutator := func(entry *NodeIPLatencyEntry) {
@@ -314,7 +318,7 @@ func (m *NodeLatencyMonitor) recvPing(socket net.PacketConn, isIPv4 bool) {
 
 // pingAll sends ICMP messages to all the Nodes.
 func (m *NodeLatencyMonitor) pingAll(ipv4Socket, ipv6Socket net.PacketConn) {
-	klog.V(4).InfoS("Pinging all Nodes")
+	klog.InfoS("Pinging all Nodes")
 	nodeIPs := m.latencyStore.ListNodeIPs()
 	for _, toIP := range nodeIPs {
 		if toIP.To4() != nil && ipv4Socket != nil {
@@ -329,7 +333,34 @@ func (m *NodeLatencyMonitor) pingAll(ipv4Socket, ipv6Socket net.PacketConn) {
 			klog.ErrorS(nil, "Cannot send ICMP message to Node IP because socket is not initialized for IP family", "IP", toIP)
 		}
 	}
-	klog.V(4).InfoS("Done pinging all Nodes")
+	klog.InfoS("Done pinging all Nodes")
+}
+
+// GetSummary returns the latency summary of the given Node IP.
+func (m *NodeLatencyMonitor) GetSummary() *stv1aplpha1.NodeIPLatencyStat {
+	nodeName, _ := env.GetNodeName()
+	return &stv1aplpha1.NodeIPLatencyStat{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: nodeName,
+		},
+		NodeIPLatencyList: m.latencyStore.ConvertList(),
+	}
+}
+
+func (m *NodeLatencyMonitor) report() {
+	summary := m.GetSummary()
+	if summary == nil {
+		klog.InfoS("Latency summary is nil")
+		return
+	}
+	antreaClient, err := m.antreaClientProvider.GetAntreaClient()
+	if err != nil {
+		klog.ErrorS(err, "Failed to get Antrea client")
+		return
+	}
+	if _, err := antreaClient.StatsV1alpha1().NodeIPLatencyStats().Create(context.TODO(), summary, metav1.CreateOptions{}); err != nil {
+		klog.ErrorS(err, "Failed to update NodeIPLatencyStats")
+	}
 }
 
 // Run starts the NodeLatencyMonitor.
@@ -343,7 +374,7 @@ func (m *NodeLatencyMonitor) Run(stopCh <-chan struct{}) {
 
 // monitorLoop is the main loop to monitor the latency of the Node.
 func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
-	klog.V(4).InfoS("NodeLatencyMonitor is running")
+	klog.InfoS("NodeLatencyMonitor is running")
 	// Low level goroutine to handle ping loop
 	var ticker *time.Ticker
 	var tickerCh <-chan time.Time
@@ -371,7 +402,7 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 		tickerCh = ticker.C
 	}
 
-	klog.V(4).InfoS("NodeLatencyMonitor is running2")
+	klog.InfoS("NodeLatencyMonitor is running2")
 	wg := sync.WaitGroup{}
 	// Start the pingAll goroutine
 	for {
@@ -379,6 +410,7 @@ func (m *NodeLatencyMonitor) monitorLoop(stopCh <-chan struct{}) {
 		case <-tickerCh:
 			// Try to send pingAll signal
 			m.pingAll(ipv4Socket, ipv6Socket)
+			m.report()
 		case <-stopCh:
 			return
 		case <-m.latencyConfigChanged:

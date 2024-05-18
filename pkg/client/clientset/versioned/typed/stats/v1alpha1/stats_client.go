@@ -54,8 +54,8 @@ func (c *StatsV1alpha1Client) NetworkPolicyStats(namespace string) NetworkPolicy
 	return newNetworkPolicyStats(c, namespace)
 }
 
-func (c *StatsV1alpha1Client) NodeIPLatencyStats(namespace string) NodeIPLatencyStatInterface {
-	return newNodeIPLatencyStats(c, namespace)
+func (c *StatsV1alpha1Client) NodeIPLatencyStats() NodeIPLatencyStatInterface {
+	return newNodeIPLatencyStats(c)
 }
 
 // NewForConfig creates a new StatsV1alpha1Client for the given config.

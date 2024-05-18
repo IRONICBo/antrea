@@ -20,6 +20,7 @@ import (
 	"sync"
 	"time"
 
+	stv1aplpha1 "antrea.io/antrea/pkg/apis/stats/v1alpha1"
 	"github.com/containernetworking/plugins/pkg/ip"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/klog/v2"
@@ -235,4 +236,35 @@ func (l *LatencyStore) ListNodeIPs() []net.IP {
 	}
 
 	return nodeIPs
+}
+
+// ConvertList converts the latency store to a list of NodeIPLatencyEntry.
+func (l *LatencyStore) ConvertList() []stv1aplpha1.NodeIPLatencyEntry {
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
+
+	entries := make([]stv1aplpha1.NodeIPLatencyEntry, 0, len(l.nodeIPLatencyMap))
+	for nodeIP, entry := range l.nodeIPLatencyMap {
+		// Find the Node name for the given Node IP
+		var nodeName string
+		for name, ips := range l.nodeTargetIPsMap {
+			for _, ip := range ips {
+				if ip.String() == nodeIP {
+					nodeName = name
+					break
+				}
+			}
+		}
+
+		tempEntry := stv1aplpha1.NodeIPLatencyEntry{
+			NodeName:        nodeName,
+			TargetIP:        nodeIP,
+			LastSendTime:    entry.LastSendTime.Unix(),
+			LastRecvTime:    entry.LastRecvTime.Unix(),
+			LastMeasuredRTT: entry.LastMeasuredRTT.Nanoseconds(),
+		}
+		entries = append(entries, tempEntry)
+	}
+
+	return entries
 }

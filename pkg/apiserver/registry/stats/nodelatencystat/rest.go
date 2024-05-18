@@ -64,6 +64,7 @@ func (n *nodeLatencyCollectorImpl) Get(name string) *statsv1alpha1.NodeIPLatency
 
 func (n *nodeLatencyCollectorImpl) List() []statsv1alpha1.NodeIPLatencyStat {
 	objs := n.nodeLatencyStats.List()
+	klog.InfoS("NodeIPLatencyStat list", "objs", objs)
 	entries := make([]statsv1alpha1.NodeIPLatencyStat, len(objs))
 	for i := range objs {
 		entries[i] = *(objs[i].(*statsv1alpha1.NodeIPLatencyStat))
@@ -108,10 +109,7 @@ func NewREST() *REST {
 	}()
 
 	return &REST{
-		nodeLatencyCollector: &nodeLatencyCollectorImpl{
-			nodeLatencyStats: cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc, uidIndex: uidIndexFunc}),
-			dataCh:           make(chan *statsv1alpha1.NodeIPLatencyStat, 1000),
-		},
+		nodeLatencyCollector: nodeLatencyCollector,
 	}
 }
 

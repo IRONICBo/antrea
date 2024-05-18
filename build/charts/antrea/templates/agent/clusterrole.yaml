@@ -6,6 +6,18 @@ metadata:
     app: antrea
 rules:
   - apiGroups:
+      - stats.antrea.io
+    resources:
+      - networkpolicystats
+      - antreaclusternetworkpolicystats
+      - antreanetworkpolicystats
+      - nodeiplatencystats
+    verbs:
+      - get
+      - list
+      - create
+      - update
+  - apiGroups:
       - ""
     resources:
       - nodes
@@ -82,14 +94,16 @@ rules:
       - nodestatssummaries
     verbs:
       - create
-  - apiGroups:
-      - controlplane.antrea.io
-    resources:
-      - nodeiplatencystats
-    verbs:
-      - create
-      - get
-      - list
+  # - apiGroups:
+  #     - controlplane.antrea.io
+  #   resources:
+  #     - nodeiplatencystats
+  #   verbs:
+  #     - create
+  #     - update
+  #     - patch
+  #     - get
+  #     - list
   - apiGroups:
       - controlplane.antrea.io
     resources:

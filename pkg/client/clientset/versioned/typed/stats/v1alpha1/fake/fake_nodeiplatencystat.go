@@ -21,57 +21,24 @@ import (
 
 	v1alpha1 "antrea.io/antrea/pkg/apis/stats/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
 )
 
 // FakeNodeIPLatencyStats implements NodeIPLatencyStatInterface
 type FakeNodeIPLatencyStats struct {
 	Fake *FakeStatsV1alpha1
-	ns   string
 }
 
 var nodeiplatencystatsResource = v1alpha1.SchemeGroupVersion.WithResource("nodeiplatencystats")
 
 var nodeiplatencystatsKind = v1alpha1.SchemeGroupVersion.WithKind("NodeIPLatencyStat")
 
-// Get takes name of the nodeIPLatencyStat, and returns the corresponding nodeIPLatencyStat object, and an error if there is any.
-func (c *FakeNodeIPLatencyStats) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.NodeIPLatencyStat, err error) {
+// Create takes the representation of a nodeIPLatencyStat and creates it.  Returns the server's representation of the nodeIPLatencyStat, and an error, if there is any.
+func (c *FakeNodeIPLatencyStats) Create(ctx context.Context, nodeIPLatencyStat *v1alpha1.NodeIPLatencyStat, opts v1.CreateOptions) (result *v1alpha1.NodeIPLatencyStat, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(nodeiplatencystatsResource, c.ns, name), &v1alpha1.NodeIPLatencyStat{})
-
+		Invokes(testing.NewRootCreateAction(nodeiplatencystatsResource, nodeIPLatencyStat), &v1alpha1.NodeIPLatencyStat{})
 	if obj == nil {
 		return nil, err
 	}
 	return obj.(*v1alpha1.NodeIPLatencyStat), err
-}
-
-// List takes label and field selectors, and returns the list of NodeIPLatencyStats that match those selectors.
-func (c *FakeNodeIPLatencyStats) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.NodeIPLatencyStatList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(nodeiplatencystatsResource, nodeiplatencystatsKind, c.ns, opts), &v1alpha1.NodeIPLatencyStatList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.NodeIPLatencyStatList{ListMeta: obj.(*v1alpha1.NodeIPLatencyStatList).ListMeta}
-	for _, item := range obj.(*v1alpha1.NodeIPLatencyStatList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested nodeIPLatencyStats.
-func (c *FakeNodeIPLatencyStats) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(nodeiplatencystatsResource, c.ns, opts))
-
 }

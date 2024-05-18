@@ -18,84 +18,45 @@ package v1alpha1
 
 import (
 	"context"
-	"time"
 
 	v1alpha1 "antrea.io/antrea/pkg/apis/stats/v1alpha1"
 	scheme "antrea.io/antrea/pkg/client/clientset/versioned/scheme"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	watch "k8s.io/apimachinery/pkg/watch"
 	rest "k8s.io/client-go/rest"
 )
 
 // NodeIPLatencyStatsGetter has a method to return a NodeIPLatencyStatInterface.
 // A group's client should implement this interface.
 type NodeIPLatencyStatsGetter interface {
-	NodeIPLatencyStats(namespace string) NodeIPLatencyStatInterface
+	NodeIPLatencyStats() NodeIPLatencyStatInterface
 }
 
 // NodeIPLatencyStatInterface has methods to work with NodeIPLatencyStat resources.
 type NodeIPLatencyStatInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.NodeIPLatencyStat, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.NodeIPLatencyStatList, error)
-	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
+	Create(ctx context.Context, nodeIPLatencyStat *v1alpha1.NodeIPLatencyStat, opts v1.CreateOptions) (*v1alpha1.NodeIPLatencyStat, error)
 	NodeIPLatencyStatExpansion
 }
 
 // nodeIPLatencyStats implements NodeIPLatencyStatInterface
 type nodeIPLatencyStats struct {
 	client rest.Interface
-	ns     string
 }
 
 // newNodeIPLatencyStats returns a NodeIPLatencyStats
-func newNodeIPLatencyStats(c *StatsV1alpha1Client, namespace string) *nodeIPLatencyStats {
+func newNodeIPLatencyStats(c *StatsV1alpha1Client) *nodeIPLatencyStats {
 	return &nodeIPLatencyStats{
 		client: c.RESTClient(),
-		ns:     namespace,
 	}
 }
 
-// Get takes name of the nodeIPLatencyStat, and returns the corresponding nodeIPLatencyStat object, and an error if there is any.
-func (c *nodeIPLatencyStats) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.NodeIPLatencyStat, err error) {
+// Create takes the representation of a nodeIPLatencyStat and creates it.  Returns the server's representation of the nodeIPLatencyStat, and an error, if there is any.
+func (c *nodeIPLatencyStats) Create(ctx context.Context, nodeIPLatencyStat *v1alpha1.NodeIPLatencyStat, opts v1.CreateOptions) (result *v1alpha1.NodeIPLatencyStat, err error) {
 	result = &v1alpha1.NodeIPLatencyStat{}
-	err = c.client.Get().
-		Namespace(c.ns).
+	err = c.client.Post().
 		Resource("nodeiplatencystats").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
+		VersionedParams(&opts, scheme.ParameterCodec).
+		Body(nodeIPLatencyStat).
 		Do(ctx).
 		Into(result)
 	return
-}
-
-// List takes label and field selectors, and returns the list of NodeIPLatencyStats that match those selectors.
-func (c *nodeIPLatencyStats) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.NodeIPLatencyStatList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.NodeIPLatencyStatList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("nodeiplatencystats").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Watch returns a watch.Interface that watches the requested nodeIPLatencyStats.
-func (c *nodeIPLatencyStats) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	opts.Watch = true
-	return c.client.Get().
-		Namespace(c.ns).
-		Resource("nodeiplatencystats").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Watch(ctx)
 }

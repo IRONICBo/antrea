@@ -26,10 +26,12 @@ rules:
       - networkpolicystats
       - antreaclusternetworkpolicystats
       - antreanetworkpolicystats
-      - nodeiplatencystat
+      - nodeiplatencystats
     verbs:
       - get
       - list
+      - create
+      - update
   - apiGroups:
       - system.antrea.io
     resources:

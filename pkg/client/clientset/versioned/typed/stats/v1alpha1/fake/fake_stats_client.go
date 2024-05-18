@@ -42,8 +42,8 @@ func (c *FakeStatsV1alpha1) NetworkPolicyStats(namespace string) v1alpha1.Networ
 	return &FakeNetworkPolicyStats{c, namespace}
 }
 
-func (c *FakeStatsV1alpha1) NodeIPLatencyStats(namespace string) v1alpha1.NodeIPLatencyStatInterface {
-	return &FakeNodeIPLatencyStats{c, namespace}
+func (c *FakeStatsV1alpha1) NodeIPLatencyStats() v1alpha1.NodeIPLatencyStatInterface {
+	return &FakeNodeIPLatencyStats{c}
 }
 
 // RESTClient returns a RESTClient that is used to communicate
