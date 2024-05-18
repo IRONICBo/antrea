@@ -1,4 +1,4 @@
-// Copyright 2022 Antrea Authors
+// Copyright 2024 Antrea Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -96,6 +96,40 @@ message NetworkPolicyStatsList {
 
   // List of NetworkPolicyStats.
   repeated NetworkPolicyStats items = 2;
+}
+
+// NodeIPLatencyEntry contains the latency stats of a Node.
+message NodeIPLatencyEntry {
+  // The Node's name.
+  optional string nodeName = 1;
+
+  // The Node's target IP address.
+  optional string targetIP = 2;
+
+  // The timestamp of the last send packet.
+  optional int64 lastSendTime = 3;
+
+  // The timestamp of the last receive packet.
+  optional int64 lastRecvTime = 4;
+
+  // The last valid rtt of the Node.
+  optional int64 lastMeasuredRTT = 5;
+}
+
+// NodeIPLatencyStat contains the latency stat of a Node.
+message NodeIPLatencyStat {
+  optional k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta objectMeta = 1;
+
+  // The list of NodeIPLatency.
+  repeated NodeIPLatencyEntry nodeIPLatencyList = 2;
+}
+
+// NodeIPLatencyStatList is a list of NodeIPLatencyStat objects.
+message NodeIPLatencyStatList {
+  optional k8s.io.apimachinery.pkg.apis.meta.v1.ListMeta listMeta = 1;
+
+  // The list of NodeIPLatencyStat.
+  repeated NodeIPLatencyStat items = 2;
 }
 
 // PodReference represents a Pod Reference.

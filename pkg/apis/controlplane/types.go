@@ -408,31 +408,6 @@ type NodeStatsSummary struct {
 	Multicast []MulticastGroupInfo
 }
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// NodeIPLatencyStat contains the latency stat of a Node.
-type NodeIPLatencyStat struct {
-	metav1.TypeMeta
-	metav1.ObjectMeta
-
-	// The list of NodeIPLatency.
-	NodeIPLatencyList []NodeIPLatencyEntry
-}
-
-// NodeIPLatencyEntry contains the latency stats of a Node.
-type NodeIPLatencyEntry struct {
-	// The Node's name.
-	NodeName string
-	// The Node's target IP address.
-	TargetIP string
-	// The timestamp of the last send packet.
-	LastSendTime int64
-	// The timestamp of the last receive packet.
-	LastRecvTime int64
-	// The last valid rtt of the Node.
-	LastMeasuredRTT int64
-}
-
 // MulticastGroupInfo contains the list of Pods that have joined a multicast group, for a given Node.
 type MulticastGroupInfo struct {
 	// Group is the IP of the multicast group.

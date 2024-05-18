@@ -163,6 +163,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"antrea.io/antrea/pkg/apis/stats/v1alpha1.MulticastGroupList":                      schema_pkg_apis_stats_v1alpha1_MulticastGroupList(ref),
 		"antrea.io/antrea/pkg/apis/stats/v1alpha1.NetworkPolicyStats":                      schema_pkg_apis_stats_v1alpha1_NetworkPolicyStats(ref),
 		"antrea.io/antrea/pkg/apis/stats/v1alpha1.NetworkPolicyStatsList":                  schema_pkg_apis_stats_v1alpha1_NetworkPolicyStatsList(ref),
+		"antrea.io/antrea/pkg/apis/stats/v1alpha1.NodeIPLatencyEntry":                      schema_pkg_apis_stats_v1alpha1_NodeIPLatencyEntry(ref),
+		"antrea.io/antrea/pkg/apis/stats/v1alpha1.NodeIPLatencyStat":                       schema_pkg_apis_stats_v1alpha1_NodeIPLatencyStat(ref),
+		"antrea.io/antrea/pkg/apis/stats/v1alpha1.NodeIPLatencyStatList":                   schema_pkg_apis_stats_v1alpha1_NodeIPLatencyStatList(ref),
 		"antrea.io/antrea/pkg/apis/stats/v1alpha1.PodReference":                            schema_pkg_apis_stats_v1alpha1_PodReference(ref),
 		"antrea.io/antrea/pkg/apis/stats/v1alpha1.RuleTrafficStats":                        schema_pkg_apis_stats_v1alpha1_RuleTrafficStats(ref),
 		"antrea.io/antrea/pkg/apis/stats/v1alpha1.TrafficStats":                            schema_pkg_apis_stats_v1alpha1_TrafficStats(ref),
@@ -6670,6 +6673,144 @@ func schema_pkg_apis_stats_v1alpha1_NetworkPolicyStatsList(ref common.ReferenceC
 		},
 		Dependencies: []string{
 			"antrea.io/antrea/pkg/apis/stats/v1alpha1.NetworkPolicyStats", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
+	}
+}
+
+func schema_pkg_apis_stats_v1alpha1_NodeIPLatencyEntry(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "NodeIPLatencyEntry contains the latency stats of a Node.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"NodeName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The Node's name.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"TargetIP": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The Node's target IP address.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"LastSendTime": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The timestamp of the last send packet.",
+							Default:     0,
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"LastRecvTime": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The timestamp of the last receive packet.",
+							Default:     0,
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"LastMeasuredRTT": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The last valid rtt of the Node.",
+							Default:     0,
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+				},
+				Required: []string{"NodeName", "TargetIP", "LastSendTime", "LastRecvTime", "LastMeasuredRTT"},
+			},
+		},
+	}
+}
+
+func schema_pkg_apis_stats_v1alpha1_NodeIPLatencyStat(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "NodeIPLatencyStat contains the latency stat of a Node.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"TypeMeta": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"),
+						},
+					},
+					"ObjectMeta": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"NodeIPLatencyList": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The list of NodeIPLatency.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("antrea.io/antrea/pkg/apis/stats/v1alpha1.NodeIPLatencyEntry"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"TypeMeta", "ObjectMeta", "NodeIPLatencyList"},
+			},
+		},
+		Dependencies: []string{
+			"antrea.io/antrea/pkg/apis/stats/v1alpha1.NodeIPLatencyEntry", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"},
+	}
+}
+
+func schema_pkg_apis_stats_v1alpha1_NodeIPLatencyStatList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "NodeIPLatencyStatList is a list of NodeIPLatencyStat objects.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"TypeMeta": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"),
+						},
+					},
+					"ListMeta": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"Items": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The list of NodeIPLatencyStat.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("antrea.io/antrea/pkg/apis/stats/v1alpha1.NodeIPLatencyStat"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"TypeMeta", "ListMeta", "Items"},
+			},
+		},
+		Dependencies: []string{
+			"antrea.io/antrea/pkg/apis/stats/v1alpha1.NodeIPLatencyStat", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"},
 	}
 }
 

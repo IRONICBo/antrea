@@ -92,6 +92,18 @@ func (r *REST) List(ctx context.Context, options *internalversion.ListOptions) (
 			items = append(items, stats[i])
 		}
 	}
+	// Add a mock one
+	items = append(items, statsv1alpha1.NetworkPolicyStats{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "foo",
+			Name:      "bar",
+		},
+		TrafficStats: statsv1alpha1.TrafficStats{
+			Sessions: 1,
+			Packets:  2,
+			Bytes:    3,
+		},
+	})
 	metricList := &statsv1alpha1.NetworkPolicyStatsList{
 		Items: items,
 	}

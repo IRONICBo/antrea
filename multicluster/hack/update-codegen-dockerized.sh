@@ -43,14 +43,14 @@ function generate_multicluster_client_code {
     --input "multicluster/v1alpha2" \
     --output-package "${ANTREA_PKG}/multicluster/pkg/client/clientset" \
     --go-header-file hack/boilerplate/license_header.go.txt
-  
+
   # Generate listers with K8s codegen tools.
   $GOPATH/bin/lister-gen \
     --input-dirs "${ANTREA_PKG}/multicluster/apis/multicluster/v1alpha1" \
     --input-dirs "${ANTREA_PKG}/multicluster/apis/multicluster/v1alpha2" \
     --output-package "${ANTREA_PKG}/multicluster/pkg/client/listers" \
     --go-header-file hack/boilerplate/license_header.go.txt
-  
+
   # Generate informers with K8s codegen tools.
   $GOPATH/bin/informer-gen \
     --input-dirs "${ANTREA_PKG}/multicluster/apis/multicluster/v1alpha1" \

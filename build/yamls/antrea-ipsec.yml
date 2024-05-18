@@ -4420,6 +4420,7 @@ rules:
       - networkpolicystats
       - antreaclusternetworkpolicystats
       - antreanetworkpolicystats
+      - nodeiplatencystat
     verbs:
       - get
       - list
