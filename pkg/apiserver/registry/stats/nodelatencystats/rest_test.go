@@ -33,37 +33,29 @@ func TestREST(t *testing.T) {
 }
 
 func TestRESTCreate(t *testing.T) {
-	tests := []struct {
-		name        string
-		summary     *statsv1alpha1.NodeLatencyStats
-		expectedObj runtime.Object
-		expectedErr bool
-	}{
-		{
-			name: "create summary",
-			summary: &statsv1alpha1.NodeLatencyStats{
-				ObjectMeta:           metav1.ObjectMeta{Name: "node1"},
-				PeerNodeLatencyStats: nil,
-			},
-			expectedObj: &statsv1alpha1.NodeLatencyStats{
-				ObjectMeta:           metav1.ObjectMeta{Name: "node1"},
-				PeerNodeLatencyStats: nil,
-			},
-			expectedErr: false,
-		},
+	// Define the test case
+	name := "create summary"
+	summary := &statsv1alpha1.NodeLatencyStats{
+		ObjectMeta:           metav1.ObjectMeta{Name: "node1"},
+		PeerNodeLatencyStats: nil,
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			r := NewREST()
-			obj, err := r.Create(context.TODO(), tt.summary, nil, nil)
-			if tt.expectedErr {
-				assert.NotNil(t, err)
-			} else {
-				assert.Nil(t, err)
-				assert.Equal(t, tt.expectedObj, obj)
-			}
-		})
+	expectedObj := &statsv1alpha1.NodeLatencyStats{
+		ObjectMeta:           metav1.ObjectMeta{Name: "node1"},
+		PeerNodeLatencyStats: nil,
 	}
+	expectedErr := false
+
+	// Execute the test case
+	t.Run(name, func(t *testing.T) {
+		r := NewREST()
+		obj, err := r.Create(context.TODO(), summary, nil, nil)
+		if expectedErr {
+			assert.NotNil(t, err)
+		} else {
+			assert.Nil(t, err)
+			assert.Equal(t, expectedObj, obj)
+		}
+	})
 }
 
 func TestRESTGet(t *testing.T) {

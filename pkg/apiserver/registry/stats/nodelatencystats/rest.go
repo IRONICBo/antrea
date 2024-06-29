@@ -58,8 +58,7 @@ func (r *REST) Destroy() {
 
 func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
 	summary := obj.(*statsv1alpha1.NodeLatencyStats)
-	err := r.indexer.Update(summary)
-	if err != nil {
+	if err := r.indexer.Update(summary); err != nil {
 		return nil, errors.NewInternalError(err)
 	}
 
@@ -68,7 +67,10 @@ func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation 
 
 func (r *REST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
 	obj, exists, err := r.indexer.GetByKey(name)
-	if err != nil || !exists {
+	if err != nil {
+		return nil, errors.NewInternalError(err)
+	}
+	if !exists {
 		return nil, errors.NewNotFound(statsv1alpha1.Resource("nodelatencystats"), name)
 	}
 
@@ -81,9 +83,6 @@ func (r *REST) NewList() runtime.Object {
 
 func (r *REST) List(ctx context.Context, options *internalversion.ListOptions) (runtime.Object, error) {
 	objs := r.indexer.List()
-	if objs == nil {
-		return &statsv1alpha1.NodeLatencyStatsList{}, nil
-	}
 
 	entries := make([]statsv1alpha1.NodeLatencyStats, 0, len(objs))
 	for _, obj := range objs {
@@ -121,13 +120,16 @@ func (r *REST) ConvertToTable(ctx context.Context, obj runtime.Object, tableOpti
 func (r *REST) Delete(ctx context.Context, name string, deleteValidation rest.ValidateObjectFunc, options *metav1.DeleteOptions) (runtime.Object, bool, error) {
 	// Ignore the deleteValidation and options for now.
 	obj, exists, err := r.indexer.GetByKey(name)
-	if err != nil || !exists {
+	if err != nil {
+		return nil, false, errors.NewInternalError(err)
+	}
+	if !exists {
 		return nil, false, errors.NewNotFound(statsv1alpha1.Resource("nodelatencystats"), name)
 	}
 
 	err = r.indexer.Delete(obj)
 	if err != nil {
-		return nil, false, err
+		return nil, false, errors.NewInternalError(err)
 	}
 
 	return obj.(*statsv1alpha1.NodeLatencyStats), true, nil
