@@ -16,6 +16,7 @@ package nodelatencystats
 
 import (
 	"context"
+	"strconv"
 
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -83,6 +84,20 @@ func (r *REST) NewList() runtime.Object {
 
 func (r *REST) List(ctx context.Context, options *internalversion.ListOptions) (runtime.Object, error) {
 	objs := r.indexer.List()
+
+	if options.Continue != "" {
+		start, err := strconv.Atoi(options.Continue)
+		if err != nil {
+			return nil, errors.NewBadRequest("invalid continue token")
+		}
+		if start < 0 || start >= len(objs) {
+			return r.NewList(), nil
+		}
+		objs = objs[start:]
+	}
+	if options.Limit > 0 && int64(len(objs)) > options.Limit {
+		objs = objs[:options.Limit]
+	}
 
 	entries := make([]statsv1alpha1.NodeLatencyStats, 0, len(objs))
 	for _, obj := range objs {
